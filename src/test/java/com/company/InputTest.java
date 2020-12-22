@@ -28,7 +28,7 @@ class InputTest {
     void inputString_Word_Equals() throws IOException {
         System.setIn(in);
 
-        assertEquals("name", Input.inputString("STR", "[a-z\\s]+"));
+        assertEquals(name, Input.inputString("STR", "[a-z\\s]+"));
 
         System.setIn(sysInBackup);
     }
