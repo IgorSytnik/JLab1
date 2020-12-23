@@ -2,6 +2,7 @@ package com.company.hei;
 
 import com.company.people.AcademicPosition;
 import com.company.people.Group;
+import com.company.people.Student;
 import com.company.people.Teacher;
 
 import java.io.IOException;
@@ -121,6 +122,10 @@ public class Department extends Institution {
     public Map<Boolean, List<Teacher>> splitTeachersByPosition(AcademicPosition position) {
         return teachers.stream().
                 collect(Collectors.partitioningBy(t -> t.getPosition().equals(position)));
+    }
+
+    public List<Teacher> getListTeachers() {
+        return teachers;
     }
 
     @Override

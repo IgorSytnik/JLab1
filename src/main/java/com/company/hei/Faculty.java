@@ -1,8 +1,13 @@
 package com.company.hei;
 
+import com.company.people.AcademicPosition;
+import com.company.people.Teacher;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Faculty extends Institution {
     private List<Department> departments = new ArrayList<>();
@@ -19,8 +24,7 @@ public class Faculty extends Institution {
         return departments.stream().anyMatch(o -> o.getName().equals(obName));
     }
 
-    public boolean addDepartment() throws IOException {
-        Department department = new     Department();
+    public boolean addDepartment(Department department) throws IOException {
         if(lookUp(department.getName())) {
             System.out.println("This faculty already has this department ");
             return false;
@@ -28,6 +32,18 @@ public class Faculty extends Institution {
             departments.add(department);
             return true;
         }
+    }
+
+    public boolean addDepartment() throws IOException {
+        return addDepartment(new Department());
+    }
+
+    //
+    public List<Teacher> findTeachersByPosition(AcademicPosition position) {
+        return departments.stream().
+                map(d -> d.findTeachersByPosition(position)).
+                flatMap(Collection::stream).
+                collect(Collectors.toList());
     }
 
     public boolean getDepartmentList() {
