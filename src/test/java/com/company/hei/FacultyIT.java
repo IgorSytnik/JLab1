@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class FacultyIT {
 
     private final String NAME_F = "TEF";
-    private final String NAME_D = "PAPS";
     private final String NAME_T = "Brian Eno";
     private final AcademicPosition POSITION = AcademicPosition.ASPIRANT;
 
@@ -26,7 +25,7 @@ class FacultyIT {
     private Faculty faculty = new Faculty(NAME_F);
 
     @Test
-    void findTeachersByPosition() throws IOException {
+    void findTeachersByPosition_findAnExistingTeacher_Equals() throws IOException {
         //GIVEN
         faculty.addDepartment(department);
         final List<Teacher> teachers = Collections.singletonList(

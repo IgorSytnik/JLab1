@@ -24,7 +24,7 @@ class DepartmentIT {
     Department department = Mockito.mock(Department.class);
 
     @Test
-    void findGroupsByYear_() {
+    void findGroupsByYear_findAnExistingGroup_Equals() {
         //GIVEN
         final List<Group> groups = Collections.singletonList(
                 new Group(NAME_G, YEAR));
@@ -39,7 +39,7 @@ class DepartmentIT {
     }
 
     @Test
-    void findTeachersByPosition() {
+    void findTeachersByPosition_findAnExistingTeacher_Equals() {
         //GIVEN
         final List<Teacher> teachers = Collections.singletonList(
                 new Teacher(NAME_T, POSITION));

@@ -1,42 +1,52 @@
 package com.company;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Main {
     public static void main(String[] args) {
 
-//        System.out.println("\n\tMake Higher Educational Institution:\n");
-//        HigherEducationalInstitution hei =  new HigherEducationalInstitution();
-//        System.out.println("\nHigher Educational Institution:\n\t" + hei.getName());
+        List<Integer> l1 = Stream.of(1, 2, 3, 4, 5, 10, 20)
+                .filter(x -> x % 2 == 0)
+                .sorted(Comparator.reverseOrder())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        List<Integer> l2 = Stream.of(1, 2, 3, 4, 5, 10, 20)
+                .filter(x -> x % 2 == 0)
+                .sorted(Comparator.reverseOrder())
+                .limit(2)
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
 //
-//        for (int i = 0; i < 3; i++) {
-//            System.out.println("\n\tAdd Faculty:\n");
-//            hei.addFaculty();
-//        }
-//        System.out.println("\nFaculties:\n\t");
-//        hei.getFacList();
-//
-//        System.out.println("\n\tAdd Department:\n");
-//        hei.addDepartment();
-//        System.out.println("\nDepartment:\n\t");
-//        hei.getFaculty(0).getDepartmentsList();
-//
-//        System.out.println("\n\tMake Group:\n");
-//        Group g = new Group();
-//        System.out.println("\nGroup:\n\t" + g);
-//
-//        for (int i = 0; i < 3; i++) {
-//            System.out.println("\n\tAdd Student:\n");
-//            g.addStudent();
-//        }
-//        System.out.println("\nStudents:\n");
-//        g.getStudentsList();
-//
-//        System.out.println("\n\tAdd Student:\n");
-//        g.addStudent();
-//        System.out.println("\nStudent:\n");
-//        g.getStudentsList();
-//
-//        System.out.println("\n\tMake Teacher:\n");
-//        Teacher t = new Teacher();
-//        System.out.println("\nTeacher:\n\t" + t);
+        List<Integer> l3 = Stream.of(1, 2, 3)
+                .map(a -> a * a)
+                .collect(Collectors.toList());
+
+        List<Integer> l4 = Stream.of(1, 2, 3, 4, 5)
+                .filter(a -> a % 2 == 0)
+                .collect(Collectors.toList());
+
+        List<Integer> l5 = Stream.of(1, 2, 3, 4, 5, 10, 20)
+                .filter(a -> a % 2 == 0)
+                .limit(2)
+                .collect(Collectors.toList());
+
+        //
+        List<Integer> l6 = Stream.of(1, 2, 3, 4, 5, 10, 20)
+                .filter(x -> x % 2 == 1)
+                .sorted(Comparator.reverseOrder())
+                .limit(2)
+                .collect(Collectors.toList());
+        //
+
+        final List<Integer> l7 = Stream.of(1, 2, 3, 4, 5)
+                .collect(Collectors.filtering(a -> a % 2 == 0, Collectors.toList()));
+
+        System.out.println();
+        l6.forEach(System.out::println);
+
     }
 }
