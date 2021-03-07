@@ -1,4 +1,4 @@
-package com.company;
+package com.company.run;
 
 import java.util.Comparator;
 import java.util.List;

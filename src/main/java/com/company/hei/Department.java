@@ -1,11 +1,10 @@
 package com.company.hei;
 
+import com.company.exceptoins.EmptyListException;
 import com.company.people.AcademicPosition;
 import com.company.people.Group;
-import com.company.people.Student;
 import com.company.people.Teacher;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,12 +12,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Department extends Institution {
-    private List<Group> groups = new ArrayList<>();
-    private List<Teacher> teachers = new ArrayList<>();
+    private final List<Group> groups = new ArrayList<>();
+    private final List<Teacher> teachers = new ArrayList<>();
 
-    public Department() throws IOException {
-        this.name = this.enterName();
-    }
+//    public Department() throws IOException {
+//        this.name = this.enterName();
+//    }
     public Department(String n) {
         this.name = n;
     }
@@ -29,7 +28,6 @@ public class Department extends Institution {
 
     public boolean addGroup(Group g) {
         if(lookUp(g.getName())) {
-            System.out.println("This department already has this group ");
             return false;
         } else {
             groups.add(g);
@@ -37,13 +35,8 @@ public class Department extends Institution {
         }
     }
 
-    public boolean addGroup() throws IOException {
-        return addGroup(new Group());
-    }
-
     public boolean addTeacher(Teacher t) {
         if(teachers.contains(t)) {
-            System.out.println("This department already has this Teacher ");
             return false;
         } else {
             teachers.add(t);
@@ -51,27 +44,23 @@ public class Department extends Institution {
         }
     }
 
-    public boolean addTeacher() throws IOException {
-        return addTeacher(new Teacher());
+    public boolean showGroupsList() {
+        return showList(groups, "groups");
     }
 
-    public boolean getGroupsList() {
-        return getList(groups, "groups");
+    public boolean showTeachersList() {
+        return showList(teachers, "teachers");
     }
 
-    public boolean getTeachersList() {
-        return getList(teachers, "teachers");
-    }
-
-    public Group getGroup(int i) {
+    public Group getGroup(int i) throws EmptyListException {
         return (Group) getOne(groups, "groups", i);
     }
 
-    public Teacher getTeacher(int i) {
-        return (Teacher) getOne(teachers, "teachers", i);
+    public Teacher getTeacher(int index) throws EmptyListException {
+        return (Teacher) getOne(teachers, "teachers", index);
     }
 
-    /*group list lambdas*/
+    /** group list lambdas */
     public List<Group> findGroupsByYear(int year) {
         return groups.stream()
                 .filter(g -> g.getYear() == year)
@@ -83,13 +72,6 @@ public class Department extends Institution {
                 .filter(g -> g.getYear() == year)
                 .mapToInt(g -> g.getStudentsList().size())
                 .sum();
-    }
-
-    public static class EmptyListException
-            extends Exception {
-        public EmptyListException(String errorMessage) {
-            super(errorMessage);
-        }
     }
 
     public Group maxStudentsInGroup() throws EmptyListException {
@@ -124,8 +106,12 @@ public class Department extends Institution {
                 collect(Collectors.partitioningBy(t -> t.getPosition().equals(position)));
     }
 
-    public List<Teacher> getListTeachers() {
+    public List<Teacher> getTeachersList() {
         return teachers;
+    }
+
+    public List<Group> getGroupsList() {
+        return groups;
     }
 
     @Override

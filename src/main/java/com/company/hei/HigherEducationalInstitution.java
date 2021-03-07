@@ -1,5 +1,7 @@
 package com.company.hei;
 
+import com.company.exceptoins.EmptyListException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,11 @@ public class HigherEducationalInstitution extends Institution {
 //        }
 //    }
 
-    public boolean getFacList() {
-        return getList(faculties, "faculties");
+    public boolean showFacList() {
+        return showList(faculties, "faculties");
     }
 
-    public Faculty getFaculty(int i) {
+    public Faculty getFaculty(int i) throws EmptyListException {
         Object obj = getOne(faculties, "faculties", i);
         return (Faculty) obj;
     }

@@ -1,7 +1,7 @@
 package com.company.people;
 
 import com.company.ClassWithName;
-import com.company.Input;
+import com.company.exceptoins.EmptyListException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ public class Group extends ClassWithName {
     private List<Student> students = new ArrayList<>();
     private int year;
 
-    public Group() throws IOException {
-        this.name = this.enterName("Please enter group name (example: \"XX-11\"):", "\\p{Alpha}+-\\d+");
-        this.year = Input.inputInt("Please enter group year (from 1 to 6):", 1, 6);
-    }
+//    public Group() throws IOException {
+//        this.name = this.enterName("Please enter group name (example: \"XX-11\"):", "\\p{Alpha}+-\\d+");
+//        this.year = Input.inputInt("Please enter group year (from 1 to 6):", 1, 6);
+//    }
 
     public Group(String n, int y) {
         this.name = n;
@@ -25,7 +25,7 @@ public class Group extends ClassWithName {
     public boolean addStudent(String studentName) {
         Student s = new Student(studentName, name, year);
         if(students.contains(s)) {
-            System.out.println("This group already has this student ");
+//            System.out.println("This group already has this student ");
             return false;
         } else {
             students.add(s);
@@ -37,6 +37,7 @@ public class Group extends ClassWithName {
         return addStudent(enterName());
     }
 
+// ???
     public boolean showStudentsList() {
         students.sort(this.NameComparator);
         if(students.isEmpty()) {
@@ -52,13 +53,11 @@ public class Group extends ClassWithName {
         }
     }
 
-    public Student getStudent(int i) {
+    public Student getStudent(int i) throws EmptyListException {
         if (students.isEmpty()) {
-            System.out.println("The list of students is empty.");
-            return null;
+            throw new EmptyListException(students.toString());
         } else if (i < 0 || i > students.size()) {
-            System.out.println("You've entered wrong number.");
-            return null;
+            throw new IndexOutOfBoundsException(i);
         }
         return students.get(i);
     }

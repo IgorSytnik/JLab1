@@ -1,5 +1,6 @@
 package com.company.hei;
 
+import com.company.exceptoins.EmptyListException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -59,7 +60,7 @@ class HigherEducationalInstitutionTest {
 
     @Test
     void getFaculty_EmptyList_Null() {
-        assertNull(obj.getFaculty(0));
+        assertThrows(EmptyListException.class, ()->obj.getFaculty(0));
     }
 
     @Test
@@ -70,11 +71,11 @@ class HigherEducationalInstitutionTest {
 
         System.setIn(sysInBackup);
 
-        assertNull(obj.getFaculty(4));
+        assertThrows(IndexOutOfBoundsException.class, ()->obj.getFaculty(4));
     }
 
     @Test
-    void getFaculty_GetFacultyFromList_NotNull() throws IOException {
+    void getFaculty_GetFacultyFromList_NotNull() throws IOException, EmptyListException {
         System.setIn(in);
 
         obj.addFaculty();
@@ -86,7 +87,7 @@ class HigherEducationalInstitutionTest {
 
     @Test
     void getFacList_GetEmptyList_False() {
-        assertFalse(obj.getFacList());
+        assertFalse(obj.showFacList());
     }
 
     @Test
@@ -97,7 +98,7 @@ class HigherEducationalInstitutionTest {
 
         System.setIn(sysInBackup);
 
-        assertTrue(obj.getFacList());
+        assertTrue(obj.showFacList());
     }
 
 //    @Test

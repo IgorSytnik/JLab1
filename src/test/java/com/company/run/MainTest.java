@@ -1,6 +1,6 @@
-package com.company;
+package com.company.run;
 
-import com.company.Main;
+import com.company.run.Main;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

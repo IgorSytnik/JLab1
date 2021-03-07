@@ -1,5 +1,6 @@
 package com.company.hei;
 
+import com.company.exceptoins.EmptyListException;
 import com.company.people.AcademicPosition;
 import com.company.people.Teacher;
 
@@ -24,9 +25,9 @@ public class Faculty extends Institution {
         return departments.stream().anyMatch(o -> o.getName().equals(obName));
     }
 
-    public boolean addDepartment(Department department) throws IOException {
+    public boolean addDepartment(Department department) {
         if(lookUp(department.getName())) {
-            System.out.println("This faculty already has this department ");
+//            System.out.println("This faculty already has this department ");
             return false;
         } else {
             departments.add(department);
@@ -34,22 +35,23 @@ public class Faculty extends Institution {
         }
     }
 
-    public boolean addDepartment() throws IOException {
-        return addDepartment(new Department());
-    }
+//    public boolean addDepartment() throws IOException {
+//        return addDepartment(new Department());
+//    }
 
     //
-    public List<Teacher> findTeachersByPosition(AcademicPosition position) {
-        return departments.stream().
-                map(d -> d.findTeachersByPosition(position)).
-                flatMap(Collection::stream).
-                collect(Collectors.toList());
+//    public List<Teacher> findTeachersByPosition(AcademicPosition position) {
+//        return departments.stream().
+//                map(d -> d.findTeachersByPosition(position)).
+//                flatMap(Collection::stream).
+//                collect(Collectors.toList());
+//    }
+
+    public boolean showDepartmentList() {
+        return showList(departments, "departments");
     }
 
-    public boolean getDepartmentList() {
-        return getList(departments, "departments");
-    }
-    public Department getDepartment(int i) {
+    public Department getDepartment(int i) throws EmptyListException {
         return (Department) getOne(departments, "departments", i);
     }
 

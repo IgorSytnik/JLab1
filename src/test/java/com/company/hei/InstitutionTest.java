@@ -1,6 +1,7 @@
 package com.company.hei;
 
 import com.company.ClassWithName;
+import com.company.exceptoins.EmptyListException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -19,12 +20,12 @@ class InstitutionTest {
         }
 
         @Override
-        protected boolean getList(List col, String name) {
-            return super.getList(col, name);
+        protected boolean showList(List col, String name) {
+            return super.showList(col, name);
         }
 
         @Override
-        protected Object getOne(Collection<? extends ClassWithName> col, String name, int i) {
+        protected Object getOne(Collection<? extends ClassWithName> col, String name, int i) throws EmptyListException {
             return super.getOne(col, name, i);
         }
     };

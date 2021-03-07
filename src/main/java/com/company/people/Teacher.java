@@ -8,23 +8,29 @@ import java.io.IOException;
 public class Teacher extends ClassWithName {
     private AcademicPosition position;
 
-    public Teacher() throws IOException {
-        this.name = this.enterName();
-        AcademicPosition[] val = AcademicPosition.values();
-        this.position = val[Input.inputInt(
-                AcademicPosition.list() + "\nPlease enter the number of teacher's position from the list above:"
-                , 1
-                , val.length
-                ) - 1];
+//    public Teacher() throws IOException {
+//        this.name = this.enterName();
+//        AcademicPosition[] val = AcademicPosition.values();
+//        this.position = val[Input.inputInt(
+//                AcademicPosition.list() + "\nPlease enter the number of teacher's position from the list above:"
+//                , 1
+//                , val.length
+//                ) - 1];
+//    }
+
+    public Teacher(String name, AcademicPosition position) {
+        this.name = name;
+        this.position = position;
     }
 
-    public Teacher(String n, AcademicPosition p) {
-        this.name = n;
-        this.position = p;
-    }
-
+    /**
+     * Get teachers position
+     * @return enum element of AcademicPosition */
     public AcademicPosition getPosition() { return position; }
 
+    /**
+     * Example:
+     * David Newberg, position: Aspirant */
     @Override
     public String toString() {
         return name + ", position: " + position;

@@ -1,5 +1,6 @@
 package com.company.people;
 
+import com.company.exceptoins.EmptyListException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -32,29 +33,29 @@ class GroupTest {
     Group obj = new Group("HH-11", year);
 
 
-    @Test
-    void constructor_CompareNameAndString_Equals() throws IOException {
-        String name1 = "XX-11";
-        int num1 = 1;
-        String expected1 =
-                "p34-123\n" +
-                        "12-yu\n" +
-                        "XX-00\n" +
-                        "n\n" +
-                        name1 + "\n" +
-                        "y\n" +
-                        "2\n" +
-                        "n\n" +
-                        num1 + "\n" +
-                        "y\n";
-        ByteArrayInputStream in1 = new ByteArrayInputStream(expected1.getBytes());
-        System.setIn(in1);
-
-        Group obj1 = new Group();
-
-        assertEquals(name1 + ", year: " + num1, obj1.toString());
-        System.setIn(sysInBackup);
-    }
+//    @Test
+//    void constructor_CompareNameAndString_Equals() throws IOException {
+//        String name1 = "XX-11";
+//        int num1 = 1;
+//        String expected1 =
+//                "p34-123\n" +
+//                        "12-yu\n" +
+//                        "XX-00\n" +
+//                        "n\n" +
+//                        name1 + "\n" +
+//                        "y\n" +
+//                        "2\n" +
+//                        "n\n" +
+//                        num1 + "\n" +
+//                        "y\n";
+//        ByteArrayInputStream in1 = new ByteArrayInputStream(expected1.getBytes());
+//        System.setIn(in1);
+//
+//        Group obj1 = new Group();
+//
+//        assertEquals(name1 + ", year: " + num1, obj1.toString());
+//        System.setIn(sysInBackup);
+//    }
 
 
     @Test
@@ -78,7 +79,7 @@ class GroupTest {
 
     @Test
     void getStudent_EmptyList_Null() {
-        assertNull(obj.getStudent(0));
+        assertThrows(EmptyListException.class, ()->obj.getStudent(0));
     }
 
     @Test
@@ -89,11 +90,11 @@ class GroupTest {
 
         System.setIn(sysInBackup);
 
-        assertNull(obj.getStudent(4));
+        assertThrows(IndexOutOfBoundsException.class, ()->obj.getStudent(4));
     }
 
     @Test
-    void getStudent_GetDepartmentFromList_NotNull() throws IOException {
+    void getStudent_GetDepartmentFromList_NotNull() throws IOException, EmptyListException {
         System.setIn(in);
 
         obj.addStudent();
