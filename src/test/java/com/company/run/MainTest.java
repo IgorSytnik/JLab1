@@ -8,14 +8,14 @@ import java.io.InputStream;
 
 class MainTest {
 
-    @Test
-    void mainTest() {
-        String input = "";
-        String[] args = null;
-        final InputStream original = System.in;
-        final ByteArrayInputStream bin = new ByteArrayInputStream(input.getBytes());
-        System.setIn(bin);
-        Main.main(args);
-        System.setIn(original);
-    }
+//    @Test
+//    void mainTest() {
+//        String input = "";
+//        String[] args = null;
+//        final InputStream original = System.in;
+//        final ByteArrayInputStream bin = new ByteArrayInputStream(input.getBytes());
+//        System.setIn(bin);
+//        Main.main(args);
+//        System.setIn(original);
+//    }
 }
