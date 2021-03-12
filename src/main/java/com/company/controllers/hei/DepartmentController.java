@@ -15,7 +15,7 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     public DepartmentController(DepartmentService departmentService) {
-//        Assert.notNull(departmentService);
+//        Assert.notNull(departmentService); //Spring
         this.departmentService = departmentService;
     }
 
@@ -38,6 +38,10 @@ public class DepartmentController {
         throw new NotImplementedException("");
     }
     public Map<Boolean, List<Teacher>> splitTeachersByPosition(AcademicPosition position) {
+        throw new NotImplementedException("");
+    }
+
+    public void giveGrades() {
         throw new NotImplementedException("");
     }
 }

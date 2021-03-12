@@ -2,28 +2,31 @@ package com.company.domain.people;
 
 import com.company.domain.ClassWithName;
 
-public class Student extends ClassWithName {
-    private String group;
-    private int year;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Student(String n, String g, int y) {
-        this.name = n;
-        this.group = g;
-        this.year = y;
+public class Student extends ClassWithName {
+    private List<Subject> subjects;
+    private String group;
+
+    public Student(String name, String group, List<Subject> subjectList) {
+        this.name = name;
+        this.group = group;
+        this.subjects = new ArrayList<>(subjectList);
     }
 
-    public int getYear() {
-        return year;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
     @Override
     public String toString() {
-        return name + ", group: " + group + ", year: " + year;
+        return name + ", group: " + group;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + year + group.hashCode();
+        return name.hashCode() + group.hashCode() + subjects.hashCode();
     }
 
     @Override
@@ -33,9 +36,9 @@ public class Student extends ClassWithName {
         }
         if (obj instanceof Student) {
             Student anobj = (Student)obj;
-            return this.year == anobj.year
-                    & this.name.equals(anobj.name)
-                    & this.group.equals(anobj.group);
+            return this.name.equals(anobj.name)
+                    & this.group.equals(anobj.group)
+                    & this.subjects.equals(anobj.subjects);
         }
         return false;
     }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Comparator;
 
 public abstract class ClassWithName implements Name {
-//    protected Input in = new Input();
+
     protected String name;
 
     // Used for sorting in ascending order

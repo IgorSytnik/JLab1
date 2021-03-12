@@ -9,19 +9,29 @@ import java.util.List;
 
 public class Group extends ClassWithName {
     private List<Student> students = new ArrayList<>();
+    private List<Subject> subjects = new ArrayList<>();
     private int year;
 
-    public Group(String n, int y) {
-        this.name = n;
-        this.year = y;
+    public Group(String name, int year) {
+        this.name = name;
+        this.year = year;
     }
 
     public boolean addStudent(String studentName) {
-        Student s = new Student(studentName, name, year);
-        if(students.contains(s)) {
+        Student student = new Student(studentName, name, subjects);
+        if(students.contains(student)) {
             return false;
         } else {
-            students.add(s);
+            students.add(student);
+            return true;
+        }
+    }
+
+    public boolean addSubject(Subject subject) {
+        if(subjects.contains(subject)) {
+            return false;
+        } else {
+            subjects.add(subject);
             return true;
         }
     }
