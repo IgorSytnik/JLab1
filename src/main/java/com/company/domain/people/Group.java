@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Group extends ClassWithName {
+
+    private long id;
     private List<Student> students = new ArrayList<>();
     private List<Subject> subjects = new ArrayList<>();
     private int year;
@@ -18,6 +20,9 @@ public class Group extends ClassWithName {
     }
 
     public boolean addStudent(String studentName) {
+        if (studentName == null) {
+            throw new IllegalArgumentException("studentName must not be null");
+        }
         Student student = new Student(studentName, name, subjects);
         if(students.contains(student)) {
             return false;
@@ -28,6 +33,9 @@ public class Group extends ClassWithName {
     }
 
     public boolean addSubject(Subject subject) {
+        if (subject == null) {
+            throw new IllegalArgumentException("subject must not be null");
+        }
         if(subjects.contains(subject)) {
             return false;
         } else {
@@ -61,8 +69,11 @@ public class Group extends ClassWithName {
         return students.get(i);
     }
 
+    /**
+     * @return copy of student list
+     * */
     public List<Student> getStudents() {
-        return students;
+        return List.copyOf(students);
     }
 
     public int getYear() {

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HigherEducationalInstitution extends Institution {
+
+    private long id;
     private List<Faculty> faculties = new ArrayList<>();
 
     public HigherEducationalInstitution(String n) {
@@ -17,6 +19,9 @@ public class HigherEducationalInstitution extends Institution {
     }
 
     public boolean addFaculty(Faculty faculty) {
+        if (faculty == null) {
+            throw new IllegalArgumentException("faculty must not be null");
+        }
         if(lookUp(faculty.getName())) {
             return false;
         } else {
@@ -24,19 +29,6 @@ public class HigherEducationalInstitution extends Institution {
             return true;
         }
     }
-
-//    public void addDepartment() throws IOException {
-//        if(getFacList()) {
-//            System.out.println("\nWhere do you want to put new department? (pick the faculty)");
-//            int num = Input.inputInt("Please enter the number from the list (-1 to cancel):",
-//                    1,
-//                    faculties.size()) - 1;
-//            if(num == -1) return;
-//            faculties.get(num).addDepartment();
-//        } else {
-//            System.out.println("\nFirst, you need to add faculties.");
-//        }
-//    }
 
     public boolean showFacList() {
         return showList(faculties, "faculties");

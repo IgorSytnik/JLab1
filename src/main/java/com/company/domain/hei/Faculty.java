@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Faculty extends Institution {
+
+    private long id;
     private List<Department> departments = new ArrayList<>();
 
 //    public Faculty() throws IOException {
@@ -21,6 +23,9 @@ public class Faculty extends Institution {
     }
 
     public boolean addDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("department must not be null");
+        }
         if(lookUp(department.getName())) {
 //            System.out.println("This faculty already has this department ");
             return false;
@@ -32,14 +37,6 @@ public class Faculty extends Institution {
 
 //    public boolean addDepartment() throws IOException {
 //        return addDepartment(new Department());
-//    }
-
-    //
-//    public List<Teacher> findTeachersByPosition(AcademicPosition position) {
-//        return departments.stream().
-//                map(d -> d.findTeachersByPosition(position)).
-//                flatMap(Collection::stream).
-//                collect(Collectors.toList());
 //    }
 
     public boolean showDepartmentList() {

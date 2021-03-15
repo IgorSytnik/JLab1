@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Department extends Institution {
+
+    private long id;
     private final List<Group> groups = new ArrayList<>();
     private final List<Teacher> teachers = new ArrayList<>();
 
@@ -23,20 +25,26 @@ public class Department extends Institution {
         return groups.stream().anyMatch(o -> o.getName().equals(obName));
     }
 
-    public boolean addGroup(Group g) {
-        if(lookUp(g.getName())) {
+    public boolean addGroup(Group group) {
+        if (group == null) {
+            throw new IllegalArgumentException("teacher must not be null");
+        }
+        if(lookUp(group.getName())) {
             return false;
         } else {
-            groups.add(g);
+            groups.add(group);
             return true;
         }
     }
 
-    public boolean addTeacher(Teacher t) {
-        if(teachers.contains(t)) {
+    public boolean addTeacher(Teacher teacher) {
+        if (teacher == null) {
+            throw new IllegalArgumentException("teacher must not be null");
+        }
+        if(teachers.contains(teacher)) {
             return false;
         } else {
-            teachers.add(t);
+            teachers.add(teacher);
             return true;
         }
     }
@@ -103,12 +111,18 @@ public class Department extends Institution {
                 collect(Collectors.partitioningBy(t -> t.getPosition().equals(position)));
     }
 
+    /**
+     * @return copy of teacher list
+     * */
     public List<Teacher> getTeachersList() {
-        return teachers;
+        return List.copyOf(teachers);
     }
 
+    /**
+     * @return copy of group list
+     * */
     public List<Group> getGroupsList() {
-        return groups;
+        return List.copyOf(groups);
     }
 
     @Override

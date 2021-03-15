@@ -1,47 +1,66 @@
 package com.company.controllers.hei;
 
-import com.company.domain.people.AcademicPosition;
-import com.company.domain.people.Group;
-import com.company.domain.people.Teacher;
+import com.company.domain.people.Student;
+import com.company.domain.people.Subject;
 import com.company.services.hei.DepartmentService;
-import org.apache.commons.lang3.NotImplementedException;
+import com.company.services.people.GroupService;
+import com.company.services.people.StudentService;
+import com.company.services.people.SubjectService;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 //@Controller
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
+    private final GroupService groupService;
+    private final StudentService studentService;
+    private final SubjectService subjectService;
 
-    public DepartmentController(DepartmentService departmentService) {
+
+    public DepartmentController(GroupService groupService, StudentService studentService, SubjectService subjectService) {
 //        Assert.notNull(departmentService); //Spring
-        this.departmentService = departmentService;
+        this.groupService = groupService;
+        this.studentService = studentService;
+        this.subjectService = subjectService;
     }
 
-    public List<Group> findGroupsByYear(int year) {
-        throw new NotImplementedException("");
-    }
-    public int countStudentsByYear(int year) {
-        throw new NotImplementedException("");
-    }
-    public Group maxStudentsInGroup() {
-        throw new NotImplementedException("");
-    }
-    public double avgNumberOfStudents() {
-        throw new NotImplementedException("");
-    }
-    public Map<Boolean, List<Group>> splitGroupsByYear(int year) {
-        throw new NotImplementedException("");
-    }
-    public List<Teacher> findTeachersByPosition(AcademicPosition position) {
-        throw new NotImplementedException("");
-    }
-    public Map<Boolean, List<Teacher>> splitTeachersByPosition(AcademicPosition position) {
-        throw new NotImplementedException("");
+    public void giveGrades(Map<Student, Map<Date, Integer>> mapGrades, long subjectId) {
+        Subject subject = subjectService.getSubjectById(subjectId);
+        studentService.addGrades(mapGrades, subject);
     }
 
-    public void giveGrades() {
-        throw new NotImplementedException("");
+    public void giveAttestations(Map<Student, Boolean> mapAttest, long subjectId) {
+        Subject subject = subjectService.getSubjectById(subjectId);
+        studentService.addAttestations(mapAttest, subject);
     }
+
+    public Map<Student, Map<Date, Integer>> getGrates(long subjectId, long groupId) {
+        Map<Student, Map<Date,Integer>> studentGrades = new HashMap<>();
+        List<Student> students = groupService.getStudentsFromGroup(groupId);
+        Subject subject = subjectService.getSubjectById(subjectId);
+
+        for (Student student:
+                students) {
+            studentGrades.put(student,
+                    studentService.getGrades(student, subject));
+        }
+        return studentGrades;
+    }
+
+    public Map<Student, boolean[]> getAttestations(long subjectId, long groupId)  {
+        Map<Student, boolean[]> studentGrades = new HashMap<>();
+        List<Student> students = groupService.getStudentsFromGroup(groupId);
+        Subject subject = subjectService.getSubjectById(subjectId);
+
+        for (Student student:
+                students) {
+            studentGrades.put(student,
+                    studentService.getAttestations(student, subject));
+        }
+        return studentGrades;
+    }
+
 }

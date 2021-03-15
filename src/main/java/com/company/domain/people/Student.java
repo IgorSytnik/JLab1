@@ -2,21 +2,28 @@ package com.company.domain.people;
 
 import com.company.domain.ClassWithName;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Student extends ClassWithName {
-    private List<Subject> subjects;
+
+    private long id;
+    private Map<Subject, SubjectAttest> subjects = new HashMap<>();
     private String group;
 
     public Student(String name, String group, List<Subject> subjectList) {
         this.name = name;
         this.group = group;
-        this.subjects = new ArrayList<>(subjectList);
+        for (Subject subject:
+             subjectList) {
+            subjects.put(subject, new SubjectAttest());
+        }
     }
 
-    public List<Subject> getSubjects() {
-        return subjects;
+    /**
+     * @return copy of subject list
+     * */
+    public HashMap<Subject, SubjectAttest> getSubjects() {
+        return (HashMap<Subject, SubjectAttest>) Map.copyOf(subjects);
     }
 
     @Override

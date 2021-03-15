@@ -3,6 +3,8 @@ package com.company.domain.people;
 import com.company.domain.ClassWithName;
 
 public class Teacher extends ClassWithName {
+
+    private long id;
     private AcademicPosition position;
 
 //    public Teacher() throws IOException {
