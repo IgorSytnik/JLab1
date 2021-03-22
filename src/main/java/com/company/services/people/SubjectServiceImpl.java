@@ -1,18 +1,18 @@
 package com.company.services.people;
 
 import com.company.domain.people.Subject;
-import com.company.repository.people.SubjectRepisitory;
+import com.company.repository.interfaces.RepositoryInt;
+import com.company.services.interfaces.people.SubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
 
-    private final SubjectRepisitory repisitory;
+    @Autowired
+    private RepositoryInt<Subject> repository;
 
-    public SubjectServiceImpl(SubjectRepisitory repisitory) {
-        this.repisitory = repisitory;
-    }
-
-    @Override
     public Subject getSubjectById(long subjectId) {
-        return repisitory.findById(subjectId);
+        return repository.findById(subjectId);
     }
 }

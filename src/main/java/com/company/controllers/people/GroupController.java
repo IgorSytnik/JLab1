@@ -1,6 +1,6 @@
 package com.company.controllers.people;
 
-import com.company.services.people.GroupService;
+import com.company.services.interfaces.people.GroupService;
 
 public class GroupController {
 
