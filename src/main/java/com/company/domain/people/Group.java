@@ -2,16 +2,18 @@ package com.company.domain.people;
 
 import com.company.domain.ClassWithName;
 import com.company.exceptoins.EmptyListException;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Getter
 public class Group extends ClassWithName {
 
     private long id;
-    private List<Student> students = new ArrayList<>();
-    private List<Subject> subjects = new ArrayList<>();
+    private final List<Student> students = new ArrayList<>();
+    private final List<Subject> subjects = new ArrayList<>();
     private int year;
 
     public Group(String name, int year) {
@@ -44,7 +46,12 @@ public class Group extends ClassWithName {
         }
     }
 
-// ???
+    public long getId() {
+        return id;
+    }
+
+
+    // ???
     public boolean showStudentsList() {
         students.sort(this.NameComparator);
         if(students.isEmpty()) {
@@ -69,16 +76,16 @@ public class Group extends ClassWithName {
         return students.get(i);
     }
 
-    /**
-     * @return copy of student list
-     * */
-    public List<Student> getStudents() {
-        return List.copyOf(students);
-    }
+//    /**
+//     * @return copy of student list
+//     * */
+//    public List<Student> getStudents() {
+//        return List.copyOf(students);
+//    }
 
-    public int getYear() {
-        return year;
-    }
+//    public int getYear() {
+//        return year;
+//    }
 
     @Override
     public String toString() {

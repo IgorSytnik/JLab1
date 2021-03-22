@@ -2,20 +2,20 @@ package com.company.services.people;
 
 import com.company.domain.people.Group;
 import com.company.domain.people.Student;
-import com.company.domain.people.Subject;
-import com.company.repository.people.GroupRepository;
-import org.apache.commons.lang3.NotImplementedException;
+import com.company.domain.people.Work;
+import com.company.repository.interfaces.RepositoryInt;
+import com.company.services.interfaces.people.GroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+@Service
 public class GroupServiceImpl implements GroupService {
 
-    private final GroupRepository repository;
-
-    public GroupServiceImpl(GroupRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private RepositoryInt<Group> repository;
 
     public Group getGroupById(long groupId) {
         return repository.findById(groupId);
@@ -23,6 +23,13 @@ public class GroupServiceImpl implements GroupService {
 
     public List<Student> getStudentsFromGroup(long groupId) {
         return repository.findById(groupId).getStudents();
+    }
+
+    public List<Work> getWorks(Group group) {
+        return group.getSubjects()
+                .stream()
+                .flatMap(e -> e.getWorks().stream())
+                .collect(Collectors.toList());
     }
 
 }

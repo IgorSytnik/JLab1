@@ -8,6 +8,7 @@ public class Student extends ClassWithName {
 
     private long id;
     private Map<Subject, SubjectAttest> subjects = new HashMap<>();
+    private Map<Work, String> works = new HashMap<>();
     private String group;
 
     public Student(String name, String group, List<Subject> subjectList) {
@@ -24,6 +25,10 @@ public class Student extends ClassWithName {
      * */
     public HashMap<Subject, SubjectAttest> getSubjects() {
         return (HashMap<Subject, SubjectAttest>) Map.copyOf(subjects);
+    }
+
+    public String handOverWork(Work work, String file) {
+        return works.put(work, file);
     }
 
     @Override
