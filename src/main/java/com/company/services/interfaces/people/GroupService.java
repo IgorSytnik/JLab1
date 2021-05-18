@@ -1,8 +1,8 @@
 package com.company.services.interfaces.people;
 
-import com.company.domain.people.Group;
+import com.company.domain.inanimate.Group;
 import com.company.domain.people.Student;
-import com.company.domain.people.Work;
+import com.company.domain.inanimate.subject.Work;
 
 import java.util.List;
 

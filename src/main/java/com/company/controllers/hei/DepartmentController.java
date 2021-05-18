@@ -1,11 +1,13 @@
 package com.company.controllers.hei;
 
+import com.company.domain.inanimate.subject.Grade;
+import com.company.domain.inanimate.subject.ListHasStudents;
+import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.people.Student;
-import com.company.domain.people.Subject;
 import com.company.services.interfaces.people.GroupService;
 import com.company.services.interfaces.people.StudentService;
 import com.company.services.interfaces.people.SubjectService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.Date;
@@ -13,27 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Controller
 public class DepartmentController {
 
-    @Autowired
-    private GroupService groupService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private SubjectService subjectService;
+//    @Autowired
+    private final GroupService groupService;
+//    @Autowired
+    private final StudentService studentService;
+//    @Autowired
+    private final SubjectService subjectService;
 
-//    public DepartmentController(@NonNull GroupService groupService,
-//                                @NonNull StudentService studentService,
-//                                @NonNull SubjectService subjectService) {
-////        Assert.notNull(groupService, groupService.getClass().getName()); //Spring
-//        this.groupService = groupService;
-//        this.studentService = studentService;
-//        this.subjectService = subjectService;
-//    }
-
-    public Map<Student, Map<Date, Integer>> getGrates(long subjectId, long groupId) {
-        Map<Student, Map<Date,Integer>> studentGrades = new HashMap<>();
+    public Map<Student, List<Grade>> getGrates(long subjectId, long groupId) {
+        Map<Student, List<Grade>> studentGrades = new HashMap<>();
         List<Student> students = groupService.getStudentsFromGroup(groupId);
         Subject subject = subjectService.getSubjectById(subjectId);
 
@@ -45,8 +39,8 @@ public class DepartmentController {
         return studentGrades;
     }
 
-    public Map<Student, boolean[]> getAttestations(long subjectId, long groupId) {
-        Map<Student, boolean[]> studentGrades = new HashMap<>();
+    public Map<Student, List<ListHasStudents>> getAttestations(long subjectId, long groupId) {
+        Map<Student, List<ListHasStudents>> studentGrades = new HashMap<>();
         List<Student> students = groupService.getStudentsFromGroup(groupId);
         Subject subject = subjectService.getSubjectById(subjectId);
 

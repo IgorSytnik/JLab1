@@ -2,6 +2,7 @@ package com.company.services.hei;
 
 import com.company.domain.hei.Department;
 import com.company.domain.people.Student;
+import com.company.repository.dao.hei.DepartmentRepository;
 import com.company.repository.interfaces.RepositoryInt;
 import com.company.services.interfaces.hei.DepartmentService;
 import org.apache.commons.lang3.NotImplementedException;
@@ -14,7 +15,7 @@ import java.util.List;
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
-    private RepositoryInt<Department> repository;
+    private DepartmentRepository repository;
 
     public List<Student> getStudentsFromGroup(long groupId) {
         throw new NotImplementedException("");

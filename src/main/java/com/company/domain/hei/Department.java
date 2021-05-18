@@ -2,10 +2,11 @@ package com.company.domain.hei;
 
 import com.company.exceptoins.AttestationException;
 import com.company.exceptoins.EmptyListException;
-import com.company.domain.people.AcademicPosition;
-import com.company.domain.people.Group;
+import com.company.domain.inanimate.AcademicPosition;
+import com.company.domain.inanimate.Group;
 import com.company.domain.people.Teacher;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,11 +14,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "departments")
 public class Department extends Institution {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
+
+    @Column(name = "name", nullable = false)
+    protected String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
+
+    @Column(name = "attestation_first_date_beg")
+    @Temporal(TemporalType.DATE)
+    private Date FirstAttestationBeg;
+
+    @Column(name = "attestation_first_date_end")
+    @Temporal(TemporalType.DATE)
+    private Date FirstAttestationEnd;
+
+    @Column(name = "attestation_second_date_beg")
+    @Temporal(TemporalType.DATE)
+    private Date SecondAttestationBeg;
+
+    @Column(name = "attestation_second_date_end")
+    @Temporal(TemporalType.DATE)
+    private Date SecondAttestationEnd;
+
+    @OneToMany(mappedBy = "department", orphanRemoval = false)
     private final List<Group> groups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department", orphanRemoval = false)
     private final List<Teacher> teachers = new ArrayList<>();
+
     private final Date[] attestTerms = new Date[4];
     private int attestTermCount = 0;
 

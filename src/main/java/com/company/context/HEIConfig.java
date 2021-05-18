@@ -1,21 +1,14 @@
 package com.company.context;
 
-import com.company.repository.dao.people.GroupRepository;
-import com.company.repository.dao.people.StudentRepository;
-import com.company.repository.dao.people.SubjectRepository;
-import com.company.repository.dao.people.WorkRepository;
-import com.company.repository.interfaces.RepositoryInt;
-import com.company.services.interfaces.people.GroupService;
-import com.company.services.interfaces.people.StudentService;
-import com.company.services.interfaces.people.SubjectService;
-import com.company.services.interfaces.people.WorkService;
-import com.company.services.people.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.company.controllers", "com.company.services", "com.company.repository"})
+@PropertySource("classpath:application.properties")
+@ComponentScan(basePackages = {"com.company.controllers", "com.company.services", "com.company.repository", "com.company.domain"})
+@Import(HibernateConfig.class)
 public class HEIConfig {
 
 //    @Bean

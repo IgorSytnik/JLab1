@@ -2,12 +2,23 @@ package com.company.domain.hei;
 
 import com.company.exceptoins.EmptyListException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "faculties")
 public class Faculty extends Institution {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
+
+    @Column(name = "name", nullable = false)
+    protected String name;
+
+    @OneToMany(mappedBy = "faculty", orphanRemoval = false)
     private List<Department> departments = new ArrayList<>();
 
 //    public Faculty() throws IOException {

@@ -1,58 +1,77 @@
-package com.company.domain.people;
+package com.company.domain.inanimate;
 
 import com.company.domain.ClassWithName;
+import com.company.domain.hei.Department;
+import com.company.domain.inanimate.subject.Work;
+import com.company.domain.people.Student;
 import com.company.exceptoins.EmptyListException;
 import lombok.Getter;
+import lombok.NonNull;
 
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Getter
+@Entity
+@Table(name = "groups")
 public class Group extends ClassWithName {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
-    private final List<Student> students = new ArrayList<>();
-    private final List<Subject> subjects = new ArrayList<>();
+
+    @Column(name = "name", nullable = false)
+    protected String name;
+
+    @Column(name = "year", nullable = false)
     private int year;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialty_id", nullable = false)
+    private Specialty specialty;
+
+    @OneToMany(mappedBy = "group", orphanRemoval = false)
+    private final List<Student> students = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", orphanRemoval = false)
+    private List<Work> works = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", orphanRemoval = false)
+    private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
     public Group(String name, int year) {
         this.name = name;
         this.year = year;
     }
 
-    public boolean addStudent(String studentName) {
-        if (studentName == null) {
-            throw new IllegalArgumentException("studentName must not be null");
-        }
-        Student student = new Student(studentName, name, subjects);
+    public boolean addStudent(@NonNull Student student) {
+//        Student student = new Student(studentName, name, subjects);
         if(students.contains(student)) {
             return false;
         } else {
             students.add(student);
+            student.setGroup(this);
             return true;
         }
     }
 
-    public boolean addSubject(Subject subject) {
-        if (subject == null) {
-            throw new IllegalArgumentException("subject must not be null");
-        }
-        if(subjects.contains(subject)) {
+    public boolean addWork(@NonNull Work work) {
+        if(works.contains(work)) {
             return false;
         } else {
-            subjects.add(subject);
+            works.add(work);
             return true;
         }
     }
 
-    public long getId() {
-        return id;
-    }
-
-
     // ???
-    public boolean showStudentsList() {
+    /*public boolean showStudentsList() {
         students.sort(this.NameComparator);
         if(students.isEmpty()) {
             System.out.println("The list of students is empty.");
@@ -65,7 +84,7 @@ public class Group extends ClassWithName {
             }
             return true;
         }
-    }
+    }*/
 
     public Student getStudent(int i) throws EmptyListException {
         if (students.isEmpty()) {
@@ -75,17 +94,6 @@ public class Group extends ClassWithName {
         }
         return students.get(i);
     }
-
-//    /**
-//     * @return copy of student list
-//     * */
-//    public List<Student> getStudents() {
-//        return List.copyOf(students);
-//    }
-
-//    public int getYear() {
-//        return year;
-//    }
 
     @Override
     public String toString() {

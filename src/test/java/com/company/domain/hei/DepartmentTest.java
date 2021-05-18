@@ -1,8 +1,9 @@
 package com.company.domain.hei;
 
+import com.company.domain.people.Student;
 import com.company.exceptoins.EmptyListException;
-import com.company.domain.people.AcademicPosition;
-import com.company.domain.people.Group;
+import com.company.domain.inanimate.AcademicPosition;
+import com.company.domain.inanimate.Group;
 import com.company.domain.people.Teacher;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -55,15 +56,15 @@ class DepartmentTest {
         Group gTest1 = new Group("TH-81", 3);
         Group gTest2 = new Group("TH-82", 3);
 
-        gTest1.addStudent("Talking Head");
-        gTest1.addStudent("Oingo Boingo");
+        gTest1.addStudent(new Student("Talking Head"));
+        gTest1.addStudent(new Student("Oingo Boingo"));
 
-        gTest2.addStudent("Death Grip");
+        gTest2.addStudent(new Student("Death Grip"));
 
-        gTest3.addStudent("Limp Bizkit");
-        gTest3.addStudent("Scary Monster");
-        gTest3.addStudent("Super Creep");
-        gTest3.addStudent("Queen Bee");
+        gTest3.addStudent(new Student("Limp Bizkit"));
+        gTest3.addStudent(new Student("Scary Monster"));
+        gTest3.addStudent(new Student("Super Creep"));
+        gTest3.addStudent(new Student("Queen Bee"));
 
         Lambda1.addGroup(gTest1); // 2
         Lambda1.addGroup(gTest2); // 1

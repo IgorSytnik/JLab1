@@ -1,31 +1,43 @@
 package com.company.domain.people;
 
 import com.company.domain.ClassWithName;
+import com.company.domain.hei.Department;
+import com.company.domain.inanimate.AcademicPosition;
+import com.company.domain.inanimate.GroupsSubjects;
+import lombok.Getter;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "teachers")
+@Getter
 public class Teacher extends ClassWithName {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
+
+    @Column(name = "name", nullable = false)
+    protected String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "position", nullable = false)
     private AcademicPosition position;
 
-//    public Teacher() throws IOException {
-//        this.name = this.enterName();
-//        AcademicPosition[] val = AcademicPosition.values();
-//        this.position = val[Input.inputInt(
-//                AcademicPosition.list() + "\nPlease enter the number of teacher's position from the list above:"
-//                , 1
-//                , val.length
-//                ) - 1];
-//    }
+    @OneToMany(mappedBy = "teacher", orphanRemoval = false)
+    private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
     public Teacher(String name, AcademicPosition position) {
         this.name = name;
         this.position = position;
     }
-
-    /**
-     * Get teachers position
-     * @return enum element of AcademicPosition */
-    public AcademicPosition getPosition() { return position; }
 
     /**
      * Example:

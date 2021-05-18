@@ -1,7 +1,7 @@
 package com.company.services.people;
 
-import com.company.domain.people.Work;
-import com.company.repository.interfaces.RepositoryInt;
+import com.company.domain.inanimate.subject.Work;
+import com.company.repository.dao.people.WorkRepository;
 import com.company.services.interfaces.people.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 public class WorkServiceImpl implements WorkService {
 
     @Autowired
-    private RepositoryInt<Work> repository;
+    private WorkRepository repository;
 
-    public Work getWorkById(long workId) {
-        return repository.findById(workId);
+    public Work getWorkById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Couldn't find work with id " + id));
     }
 }

@@ -1,12 +1,8 @@
 package com.company.services.interfaces.hei;
 
-import com.company.domain.people.AcademicPosition;
-import com.company.domain.people.Group;
 import com.company.domain.people.Student;
-import com.company.domain.people.Teacher;
 
 import java.util.List;
-import java.util.Map;
 
 public interface DepartmentService {
     List<Student> getStudentsFromGroup(long groupId);

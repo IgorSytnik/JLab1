@@ -1,27 +1,29 @@
 package com.company.controllers.people;
 
+import com.company.domain.inanimate.subject.Grade;
+import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.people.Student;
-import com.company.domain.people.Subject;
 import com.company.services.interfaces.people.StudentService;
 import com.company.services.interfaces.people.SubjectService;
-import com.company.services.interfaces.people.TeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Controller
 public class TeacherController {
 
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private SubjectService subjectService;
+//    @Autowired
+//    private final TeacherService teacherService;
+//    @Autowired
+    private final StudentService studentService;
+//    @Autowired
+    private final SubjectService subjectService;
 
-    public void giveGrades(Map<Student, Map<Date, Integer>> mapGrades, long subjectId) {
+    public void giveGrades(Map<Student, List<Grade>> mapGrades, long subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
         studentService.addGrades(mapGrades, subject);
     }

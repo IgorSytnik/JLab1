@@ -1,11 +1,5 @@
 package com.company.services;
 
-import com.company.domain.people.AcademicPosition;
-import com.company.exceptoins.EmptyListException;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class DepartmentServiceImplTest {
 
 

@@ -1,10 +1,14 @@
 package com.company.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.IOException;
 import java.util.Comparator;
 
+//@Embeddable
 public abstract class ClassWithName implements Name {
 
+//    @Column(name = "name")
     protected String name;
 
     // Used for sorting in ascending order
