@@ -27,6 +27,14 @@ public class GroupServiceImpl implements GroupService {
                 .getStudents();
     }
 
+    public void makeGroup(Group group) {
+        repository.save(group);
+    }
+
+    public List<Group> getGroups() {
+        return repository.findAll();
+    }
+
     public List<Work> getWorks(Group group) {
         return group.getWorks();
     }

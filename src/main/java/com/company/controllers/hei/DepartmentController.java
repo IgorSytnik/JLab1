@@ -1,5 +1,6 @@
 package com.company.controllers.hei;
 
+import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
@@ -50,6 +51,23 @@ public class DepartmentController {
                     studentService.getAttestations(student, subject));
         }
         return studentGrades;
+    }
+
+    public void makeGroup(String name, int year) {
+        groupService.makeGroup(new Group(name, year));
+    }
+
+    public List<Group> getAllGroups() {
+        return groupService.getGroups();
+    }
+
+    public void makeStudent(String name, long groupId) {
+        Group group = groupService.getGroupById(groupId);
+        studentService.makeStudent(new Student(name, group));
+    }
+
+    public List<Student> getAllStudents() {
+        return studentService.getStudents();
     }
 
 }

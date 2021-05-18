@@ -10,5 +10,7 @@ public interface GroupService {
     Group getGroupById(long GroupId);
     List<Student> getStudentsFromGroup(long groupId);
     List<Work> getWorks(Group group);
+    void makeGroup(Group group);
+    List<Group> getGroups();
 
 }

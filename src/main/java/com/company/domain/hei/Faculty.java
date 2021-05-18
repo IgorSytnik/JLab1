@@ -1,6 +1,7 @@
 package com.company.domain.hei;
 
 import com.company.exceptoins.EmptyListException;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Faculty extends Institution {
 //    public Faculty() throws IOException {
 //        this.name = this.enterName();
 //    }
+    public Faculty() { }
 
     public Faculty(String name) {
         this.name = name;
@@ -56,6 +58,11 @@ public class Faculty extends Institution {
 
     public Department getDepartment(int i) throws EmptyListException {
         return (Department) getOne(departments, "departments", i);
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name;
     }
 
     @Override

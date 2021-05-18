@@ -1,5 +1,6 @@
 package com.company.services.people;
 
+import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
@@ -22,6 +23,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRepository repository;
+
+    public void makeStudent(Student student) {
+        repository.save(student);
+    }
+
+    public List<Student> getStudents() {
+        return repository.findAll();
+    }
 
     public void addGrades(Map<Student, List<Grade>> mapGrades, Subject subject) {
         mapGrades.forEach((k, v) -> {

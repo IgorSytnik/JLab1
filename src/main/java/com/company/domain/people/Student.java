@@ -45,6 +45,10 @@ public class Student extends ClassWithName {
 //            subjects.put(subject, new SubjectAttest());
 //        }
     }
+    public Student(String name, Group group) {
+        this.name = name;
+        this.group = group;
+    }
     /*public Student(String name, String groupName, List<Subject> subjectList) {
         this.name = name;
         this.groupName = groupName;

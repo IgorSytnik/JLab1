@@ -1,5 +1,6 @@
 package com.company.services.interfaces.people;
 
+import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.people.Student;
@@ -17,4 +18,6 @@ public interface StudentService {
     List<ListHasStudents> getAttestations(Student student, Subject subject);
     Student getStudentById (long id);
     boolean handOverWork (Work work, String file, Student student);
+    void makeStudent(Student student);
+    List<Student> getStudents();
 }
