@@ -36,15 +36,23 @@ public class Group extends ClassWithName {
     @JoinColumn(name = "specialty_id", nullable = false)
     private Specialty specialty;
 
-    @OneToMany(mappedBy = "group", orphanRemoval = false)
+    @OneToMany(mappedBy = "group")
     private final List<Student> students = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = false)
-    private List<Work> works = new ArrayList<>();
+//    @OneToMany(mappedBy = "group", orphanRemoval = false)
+//    private List<Work> works = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = false)
+    @OneToMany(mappedBy = "group")
     private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
+    public Group(String name, int year, Department department, Specialty specialty) {
+        this.name = name;
+        this.year = year;
+        this.department = department;
+        this.specialty = specialty;
+    }
+
+    // TODO: 22.05.2021 shouldn't be here
     public Group(String name, int year) {
         this.name = name;
         this.year = year;
@@ -57,15 +65,6 @@ public class Group extends ClassWithName {
         } else {
             students.add(student);
             student.setGroup(this);
-            return true;
-        }
-    }
-
-    public boolean addWork(@NonNull Work work) {
-        if(works.contains(work)) {
-            return false;
-        } else {
-            works.add(work);
             return true;
         }
     }

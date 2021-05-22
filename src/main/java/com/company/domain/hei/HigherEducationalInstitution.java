@@ -7,7 +7,6 @@ import java.util.List;
 
 public class HigherEducationalInstitution extends Institution {
 
-    private long id;
     private List<Faculty> faculties = new ArrayList<>();
 
     public HigherEducationalInstitution(String n) {

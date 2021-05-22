@@ -61,14 +61,14 @@ public class Student extends ClassWithName {
         this.name = name;
     }
 
-    public boolean handOverWork(Work work, String file) {
-        StudentsHasWorks studentsHasWorks = new StudentsHasWorks();
-        studentsHasWorks.setDeliveryDate(new Date(System.currentTimeMillis()));
-        studentsHasWorks.setWorkLink(file);
-        studentsHasWorks.getPrimaryKey().setStudent(this);
-        studentsHasWorks.getPrimaryKey().setWork(work);
-        return StudentsHasWorksList.add(studentsHasWorks);
-    }
+//    public boolean handOverWork(Work work, String file) {
+//        StudentsHasWorks studentsHasWorks = new StudentsHasWorks();
+//        studentsHasWorks.setDeliveryDate(new Date(System.currentTimeMillis()));
+//        studentsHasWorks.setWorkLink(file);
+//        studentsHasWorks.getPrimaryKey().setStudent(this);
+//        studentsHasWorks.getPrimaryKey().setWork(work);
+//        return StudentsHasWorksList.add(studentsHasWorks);
+//    }
 
 //    @Override
 //    public String toString() {

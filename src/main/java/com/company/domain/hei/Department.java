@@ -2,7 +2,7 @@ package com.company.domain.hei;
 
 import com.company.exceptoins.AttestationException;
 import com.company.exceptoins.EmptyListException;
-import com.company.domain.inanimate.AcademicPosition;
+import com.company.domain.people.AcademicPosition;
 import com.company.domain.inanimate.Group;
 import com.company.domain.people.Teacher;
 
@@ -46,17 +46,18 @@ public class Department extends Institution {
     @Temporal(TemporalType.DATE)
     private Date SecondAttestationEnd;
 
-    @OneToMany(mappedBy = "department", orphanRemoval = false)
+    @OneToMany(mappedBy = "department")
     private final List<Group> groups = new ArrayList<>();
 
-    @OneToMany(mappedBy = "department", orphanRemoval = false)
+    @OneToMany(mappedBy = "department")
     private final List<Teacher> teachers = new ArrayList<>();
 
     private final Date[] attestTerms = new Date[4];
     private int attestTermCount = 0;
 
-    public Department(String n) {
-        this.name = n;
+    public Department(String name, Faculty faculty) {
+        this.name = name;
+        this.faculty = faculty;
     }
 
     public void attestTerm(Date date1, Date date2) {

@@ -26,4 +26,10 @@ public class Grade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "list_has_students_id", nullable = false)
     private ListHasStudents listHasStudents;
+
+    public Grade(int grade, GradeDate gradeDate, ListHasStudents listHasStudents) {
+        this.grade = grade;
+        this.gradeDate = gradeDate;
+        this.listHasStudents = listHasStudents;
+    }
 }

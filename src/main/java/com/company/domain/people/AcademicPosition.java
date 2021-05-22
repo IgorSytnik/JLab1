@@ -1,4 +1,4 @@
-package com.company.domain.inanimate;
+package com.company.domain.people;
 
 public enum AcademicPosition {
     ASPIRANT("Aspirant"),

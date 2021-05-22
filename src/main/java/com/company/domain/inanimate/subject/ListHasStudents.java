@@ -4,6 +4,7 @@ import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.people.Student;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,10 +32,12 @@ public class ListHasStudents {
     @JoinColumn(name = "students_id", nullable = false)
     private Student student;
 
-    @Column(name = "attestation_first", nullable = false, columnDefinition = "TINYINT(1)")
+    @Setter
+    @Column(name = "attestation_first", columnDefinition = "TINYINT(1)")
     private Boolean attest1;
 
-    @Column(name = "attestation_second", nullable = false, columnDefinition = "TINYINT(1)")
+    @Setter
+    @Column(name = "attestation_second", columnDefinition = "TINYINT(1)")
     private Boolean attest2;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "listHasStudents")
@@ -48,7 +51,11 @@ public class ListHasStudents {
         }
     }
 
-    // inner class defined for primary key(composite keys)
+    public ListHasStudents(GroupsSubjects groupsSubjects, Student student) {
+        this.groupsSubjects = groupsSubjects;
+        this.student = student;
+    }
+// inner class defined for primary key(composite keys)
     /*@Embeddable
     @Getter
     public static class ListHasStudentsId {

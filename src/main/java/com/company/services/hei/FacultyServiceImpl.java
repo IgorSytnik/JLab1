@@ -7,6 +7,7 @@ import com.company.services.interfaces.hei.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -16,18 +17,23 @@ public class FacultyServiceImpl implements FacultyService {
     private FacultyRepository repository;
 
     @Override
-    public Faculty getFacultyById(long id) {
+    public Faculty findById(long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Couldn't find faculty with id " + id));
     }
 
     @Override
-    public void makeFaculty(Faculty faculty) {
-        repository.save(faculty);
+    public Faculty make(Faculty ob) {
+        return repository.saveAndFlush(ob);
     }
 
     @Override
-    public List<Faculty> getFaculties() {
+    public Collection<Faculty> makeMany(Collection<Faculty> collection) {
+        return repository.saveAll(collection);
+    }
+
+    @Override
+    public List<Faculty> getAll() {
         return repository.findAll();
     }
 

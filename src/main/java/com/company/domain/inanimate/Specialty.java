@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +23,12 @@ public class Specialty extends ClassWithName {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @OneToMany(mappedBy = "specialty", orphanRemoval = false)
-    private final List<Group> groups;
+    @OneToMany(mappedBy = "specialty")
+    private final List<Group> groups = new ArrayList<>();
+
+    public Specialty(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

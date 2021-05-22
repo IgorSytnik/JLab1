@@ -19,13 +19,16 @@ public class Subject extends ClassWithName {
     private long id;
 
     @Column(name = "name", nullable = false)
-    protected String name;
+    private String name;
 
-    @OneToMany(mappedBy = "subject", orphanRemoval = false)
-    private final List<Work> works = new ArrayList<>();
+//    @OneToMany(mappedBy = "subject", orphanRemoval = false)
+//    private final List<Work> works = new ArrayList<>();
 
     @OneToMany(mappedBy = "subject",
             cascade = CascadeType.ALL)
     private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
+    public Subject(String name) {
+        this.name = name;
+    }
 }

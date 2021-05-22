@@ -23,14 +23,20 @@ import java.util.Objects;
 public class StudentsHasWorks {
 
     @EmbeddedId
-    private StudentWorkId primaryKey = new StudentWorkId();
+    private StudentWorkId primaryKey;
 
     @Column(name = "delivery_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date deliveryDate = new Date();
+    private Date deliveryDate;
 
     @Column(name = "ready_work_link", nullable = false)
     private String workLink;
+
+    public StudentsHasWorks(Date deliveryDate, String workLink, Student student, Work work) {
+        this.deliveryDate = deliveryDate;
+        this.workLink = workLink;
+        this.primaryKey = new StudentWorkId(student, work);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -62,6 +68,11 @@ public class StudentsHasWorks {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "works_id", nullable = false)
         private Work work;
+
+        public StudentWorkId(Student student, Work work) {
+            this.student = student;
+            this.work = work;
+        }
 
         @Override
         public boolean equals(Object o) {

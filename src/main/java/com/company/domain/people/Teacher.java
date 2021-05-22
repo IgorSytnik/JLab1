@@ -2,7 +2,6 @@ package com.company.domain.people;
 
 import com.company.domain.ClassWithName;
 import com.company.domain.hei.Department;
-import com.company.domain.inanimate.AcademicPosition;
 import com.company.domain.inanimate.GroupsSubjects;
 import lombok.Getter;
 
@@ -31,12 +30,13 @@ public class Teacher extends ClassWithName {
     @Column(name = "position", nullable = false)
     private AcademicPosition position;
 
-    @OneToMany(mappedBy = "teacher", orphanRemoval = false)
+    @OneToMany(mappedBy = "teacher")
     private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
-    public Teacher(String name, AcademicPosition position) {
+    public Teacher(String name, AcademicPosition position, Department department) {
         this.name = name;
         this.position = position;
+        this.department = department;
     }
 
     /**

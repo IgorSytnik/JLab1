@@ -1,6 +1,7 @@
 package com.company.domain.hei;
 
 import com.company.exceptoins.EmptyListException;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = "faculties")
 public class Faculty extends Institution {
 
@@ -19,7 +21,7 @@ public class Faculty extends Institution {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @OneToMany(mappedBy = "faculty", orphanRemoval = false)
+    @OneToMany(mappedBy = "faculty")
     private List<Department> departments = new ArrayList<>();
 
 //    public Faculty() throws IOException {

@@ -3,11 +3,14 @@ package com.company.domain.inanimate;
 import com.company.domain.inanimate.subject.GradeDate;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
+import com.company.domain.inanimate.subject.Work;
 import com.company.domain.people.Teacher;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,15 +44,33 @@ public class GroupsSubjects {
     @JoinColumn(name = "subjects_id", nullable = false)
     private Subject subject;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "teachers_id", nullable = false)
     private Teacher teacher;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
-    private List<GradeDate> gradeDateList;
+    private List<GradeDate> gradeDateList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
-    private List<ListHasStudents> listHasStudentsList;
+    private List<ListHasStudents> listHasStudentsList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
+    private List<Work> works = new ArrayList<>();
+
+    public GroupsSubjects(Group group, Subject subject, Teacher teacher) {
+        this.group = group;
+        this.subject = subject;
+        this.teacher = teacher;
+    }
+
+    public boolean addWork(@NonNull Work work) {
+        if(works.contains(work)) {
+            return false;
+        } else {
+            works.add(work);
+            return true;
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

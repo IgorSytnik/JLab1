@@ -20,8 +20,7 @@ public class GradeDate {
 
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date date = new Date();
-
+    private Date date;
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumns({
 //            @JoinColumn(name = "subject_list_groups_id", referencedColumnName = "groups_id"),
@@ -33,7 +32,12 @@ public class GradeDate {
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-    @OneToMany(mappedBy = "gradeDate", orphanRemoval = false)
+    @OneToMany(mappedBy = "gradeDate")
     private List<Grade> grades = new ArrayList<>();
+
+    public GradeDate(Date date, GroupsSubjects groupsSubjects) {
+        this.date = date;
+        this.groupsSubjects = groupsSubjects;
+    }
 
 }
