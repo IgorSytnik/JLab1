@@ -5,10 +5,12 @@ import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.GradeDate;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Work;
+import com.company.domain.people.Student;
 import com.company.services.interfaces.inanimate.GroupsSubjectsService;
 import com.company.services.interfaces.inanimate.subject.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,7 +25,11 @@ public class TeacherController {
     private final ListHasStudentsService listHasStudentsService;
     private final WorkService workService;
 
-    /*Map: long groupsSubjectsId, Date gradeDate*/
+    /**
+     * @param dateMap
+     * Map: long groupsSubjectsId, Date gradeDate
+     * @return
+     */
     public Collection<GradeDate> makeGradeDates(Map<Long, List<Date>> dateMap) {
         List<GradeDate> gradeDateList = new LinkedList<>();
         dateMap.forEach((groupsSubjectsId, gradeDate) -> gradeDate.forEach(d ->
@@ -32,7 +38,12 @@ public class TeacherController {
         return gradeDateService.makeMany(gradeDateList);
     }
 
-    /*Map: String name, Date term*/
+    /**
+     * @param workMap
+     * Map: String name, Date term
+     * @param groupsSubjectsId
+     * @return
+     */
     public Collection<Work> makeWorks(List<Map.Entry<String, Date>> workMap, long groupsSubjectsId) {
         GroupsSubjects groupsSubjects = groupsSubjectsService.findById(groupsSubjectsId);
         return workService.makeMany(workMap.stream()
@@ -45,15 +56,48 @@ public class TeacherController {
                         LinkedList::addAll));
     }
 
-    /*Map: long listHasStudentsId, boolean attest*/
-    public void giveAttestations(Map<Long, Boolean> mapAttest) {
-        listHasStudentsService.addAttestations(mapAttest.entrySet().stream()
-                .collect(Collectors.toMap(
-                        e -> listHasStudentsService.findById(e.getKey()),
-                        Map.Entry::getValue)));
+    /**
+     * @param mapAttest
+     * Map: long listHasStudentsId, boolean true=first or false=second attest, boolean attest
+     */
+    @Transactional
+    public void giveAttestations(Map<Long, Map.Entry<Boolean, Boolean>> mapAttest) {
+        mapAttest.forEach((k,v) -> {
+            Date dateNow = new Date(System.currentTimeMillis());
+            ListHasStudents listHasStudents = listHasStudentsService.findById(k);
+            if (v.getKey()) {
+                Date beg = listHasStudents.getGroupsSubjects().getGroup().getDepartment().getFirstAttestationBeg();
+                Date end = listHasStudents.getGroupsSubjects().getGroup().getDepartment().getFirstAttestationEnd();
+                if (compareDates(dateNow, beg, end)) {
+                    listHasStudentsService.addFirstAttest(k, v.getValue());
+                } else {
+                    throw new RuntimeException("It's not attestation period right now");
+                }
+            } else {
+                Date beg = listHasStudents.getGroupsSubjects().getGroup().getDepartment().getSecondAttestationBeg();
+                Date end = listHasStudents.getGroupsSubjects().getGroup().getDepartment().getSecondAttestationEnd();
+                if (compareDates(dateNow, beg, end)) {
+                    listHasStudentsService.addSecondAttest(k, v.getValue());
+                } else {
+                    throw new RuntimeException("It's not attestation period right now");
+                }
+            }
+        });
     }
 
-    /*Map: long listHasStudentsId, long gradeDateId, int grade*/
+    private boolean compareDates(Date now, Date beg, Date end) {
+        if (beg == null || end == null) {
+            return false;
+        } else {
+            return beg.compareTo(now) * now.compareTo(end) >= 0;
+        }
+    }
+
+    /**
+     * @param mapGrades
+     * Map: long listHasStudentsId, long gradeDateId, int grade
+     * @return
+     */
     public Collection<Grade> giveGrades(Map<Long, Map<Long, Integer>> mapGrades) {
         List<Grade> gradeList = new LinkedList<>();
         mapGrades.forEach((listHasStudentsId, v) -> v.forEach((gradeDateId, grade) ->
@@ -64,11 +108,36 @@ public class TeacherController {
         return gradeService.makeMany(gradeList);
     }
 
+    @Transactional
     public Collection<ListHasStudents> getStudentList(long groupsSubjectsId) {
         return groupsSubjectsService.findById(groupsSubjectsId).getListHasStudentsList();
     }
 
     public Collection<GradeDate> getGradeDatesList(long groupsSubjectsId) {
         return groupsSubjectsService.findById(groupsSubjectsId).getGradeDateList();
+    }
+
+    public List<GradeDate> getAllGradeDates() {
+        return (List<GradeDate>) gradeDateService.getAll();
+    }
+
+    public List<Work> getAllWorks() {
+        return (List<Work>) workService.getAll();
+    }
+
+    public List<Grade> getAllGrades() {
+        return (List<Grade>) gradeService.getAll();
+    }
+
+    public void deleteAllGradeDates() {
+        gradeDateService.deleteAll();
+    }
+
+    public void deleteAllWorks() {
+        workService.deleteAll();
+    }
+
+    public void deleteAllGrades() {
+        gradeService.deleteAll();
     }
 }

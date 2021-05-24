@@ -5,15 +5,14 @@ import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.inanimate.subject.Work;
 import com.company.domain.people.Teacher;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "groups_subjects", uniqueConstraints =
     @UniqueConstraint(columnNames = {"groups_id", "subjects_id"})
@@ -26,6 +25,7 @@ import java.util.Objects;
 //})
 @Getter
 @Setter
+@ToString(exclude = {"group", "subject", "teacher", "gradeDateList", "listHasStudentsList", "works"})
 public class GroupsSubjects {
 
 //    @EmbeddedId
@@ -36,22 +36,22 @@ public class GroupsSubjects {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groups_id", nullable = false)
     private Group group;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subjects_id", nullable = false)
     private Subject subject;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teachers_id", nullable = false)
     private Teacher teacher;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
     private List<GradeDate> gradeDateList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "groupsSubjects")
     private List<ListHasStudents> listHasStudentsList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
@@ -75,18 +75,31 @@ public class GroupsSubjects {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
+        if (!(o instanceof GroupsSubjects)) return false;
         GroupsSubjects that = (GroupsSubjects) o;
-        return Objects.equals(teacher, that.teacher);
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(teacher);
+        return Objects.hash(id);
     }
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//
+//        if (o == null || getClass() != o.getClass())
+//            return false;
+//
+//        GroupsSubjects that = (GroupsSubjects) o;
+//        return Objects.equals(teacher, that.teacher);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(teacher);
+//    }
 
     // inner class defined for primary key(composite keys)
     /*@Embeddable

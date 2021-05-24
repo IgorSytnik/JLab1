@@ -1,5 +1,6 @@
 package com.company.services.hei;
 
+import com.company.domain.hei.Department;
 import com.company.domain.hei.Faculty;
 import com.company.domain.inanimate.Group;
 import com.company.repository.dao.hei.FacultyRepository;
@@ -29,7 +30,9 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Collection<Faculty> makeMany(Collection<Faculty> collection) {
-        return repository.saveAll(collection);
+        Collection<Faculty> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override

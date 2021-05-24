@@ -30,7 +30,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Collection<Group> makeMany(Collection<Group> collection) {
-        return repository.saveAll(collection);
+        Collection<Group> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
@@ -44,4 +46,8 @@ public class GroupServiceImpl implements GroupService {
                 .getStudents();
     }
 
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

@@ -1,14 +1,19 @@
 package com.company.domain.inanimate.subject;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Getter
 @Table(name = "grades", uniqueConstraints =
     @UniqueConstraint(columnNames = {"grade_dates_id", "list_has_students_id"})
 )
+@ToString(exclude = {"gradeDate", "listHasStudents"})
 public class Grade {
 
     @Id
@@ -19,11 +24,11 @@ public class Grade {
     @Column(name = "grade", nullable = false)
     private int grade;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "grade_dates_id", nullable = false)
     private GradeDate gradeDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "list_has_students_id", nullable = false)
     private ListHasStudents listHasStudents;
 
@@ -31,5 +36,19 @@ public class Grade {
         this.grade = grade;
         this.gradeDate = gradeDate;
         this.listHasStudents = listHasStudents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Grade)) return false;
+        Grade grade1 = (Grade) o;
+        return id == grade1.id &&
+                grade == grade1.grade;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, grade);
     }
 }

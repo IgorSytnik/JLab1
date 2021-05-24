@@ -1,5 +1,6 @@
 package com.company.services.people;
 
+import com.company.domain.inanimate.StudentsHasWorks;
 import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
@@ -25,8 +26,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> makeMany(Collection<Student> collection) {
-        return repository.saveAll(collection);
+    public Collection<Student> makeMany(Collection<Student> collection) {
+        Collection<Student> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
@@ -57,5 +60,10 @@ public class StudentServiceImpl implements StudentService {
                         .getSubject()
                         .equals(subject))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

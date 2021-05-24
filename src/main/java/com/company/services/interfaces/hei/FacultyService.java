@@ -8,5 +8,4 @@ import com.company.services.interfaces.Common;
 import java.util.List;
 
 public interface FacultyService extends Common<Faculty> {
-    void deleteAll();
 }

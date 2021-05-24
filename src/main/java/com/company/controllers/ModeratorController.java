@@ -5,13 +5,11 @@ import com.company.domain.hei.Faculty;
 import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.Specialty;
-import com.company.domain.inanimate.subject.Grade;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.people.AcademicPosition;
 import com.company.domain.people.Student;
 import com.company.domain.people.Teacher;
-import com.company.repository.dao.inanimate.GroupsSubjectsRepository;
 import com.company.services.interfaces.hei.DepartmentService;
 import com.company.services.interfaces.hei.FacultyService;
 import com.company.services.interfaces.inanimate.GroupService;
@@ -23,8 +21,9 @@ import com.company.services.interfaces.people.StudentService;
 import com.company.services.interfaces.people.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,16 +41,9 @@ public class ModeratorController {
     private final GroupsSubjectsService groupsSubjectsService;
     private final ListHasStudentsService listHasStudentsService;
 
+    /*makers*/
     public Faculty makeFaculty(String name) {
         return facultyService.make(new Faculty(name));
-    }
-
-    public List<Faculty> getAllFaculties() {
-        return (List<Faculty>) facultyService.getAll();
-    }
-
-    public void deleteAllFaculties() {
-        facultyService.deleteAll();
     }
 
     public Specialty makeSpecialty(String name) {
@@ -91,9 +83,118 @@ public class ModeratorController {
     }
 
     public ListHasStudents makeListHasStudents(long groupSubjId, long studentId) {
+
+        GroupsSubjects groupsSubjects = groupsSubjectsService.findById(groupSubjId);
+        Student student = studentService.findById(studentId);
+
+        if (!groupsSubjects.getGroup().equals(student.getGroup()))
+            throw new RuntimeException("Student's and subject's groups don't match");
+
         return listHasStudentsService.make(new ListHasStudents(
-                groupsSubjectsService.findById(groupSubjId),
-                studentService.findById(studentId)
+                groupsSubjects,
+                student
         ));
+    }
+
+    /*get lists*/
+    public List<Faculty> getAllFaculties() {
+        return (List<Faculty>) facultyService.getAll();
+    }
+
+    public List<Specialty> getAllSpecialties() {
+        return (List<Specialty>) specialtyService.getAll();
+    }
+
+    public List<Subject> getAllSubjects() {
+        return (List<Subject>) subjectService.getAll();
+    }
+
+    public List<Department> getAllDepartments() {
+        return (List<Department>) departmentService.getAll();
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return (List<Teacher>) teacherService.getAll();
+    }
+
+    public List<Group> getAllGroups() {
+        return (List<Group>) groupService.getAll();
+    }
+
+    public List<GroupsSubjects> getAllGroupsSubjects() {
+        return (List<GroupsSubjects>) groupsSubjectsService.getAll();
+    }
+
+    public List<Student> getAllStudents() {
+        return (List<Student>) studentService.getAll();
+    }
+
+    public List<ListHasStudents> getAllListHasStudents() {
+        return (List<ListHasStudents>) listHasStudentsService.getAll();
+    }
+
+    /**
+     * @param mapAttestDates
+     * Map: long departmentId, boolean true=first or false=second attest, Date beginning, Date ending
+     */
+    @Transactional
+    public void addAttestTerms(Map<Long, Map<Boolean, Map.Entry<Date, Date>>> mapAttestDates) {
+        mapAttestDates.forEach((k,v) ->
+                v.forEach((bool, entry) -> {
+                    if (bool)
+                        departmentService.addFirstAttestDates(k, entry.getKey(), entry.getValue());
+                    else
+                        departmentService.addSecondAttestDates(k, entry.getKey(), entry.getValue());
+                })
+        );
+    }
+
+    /*delete all*/
+    public void deleteAll() {
+        listHasStudentsService.deleteAll();
+        studentService.deleteAll();
+        groupsSubjectsService.deleteAll();
+        teacherService.deleteAll();
+        groupService.deleteAll();
+        subjectService.deleteAll();
+        specialtyService.deleteAll();
+        departmentService.deleteAll();
+        facultyService.deleteAll();
+    }
+
+    public void deleteAllFaculties() {
+        facultyService.deleteAll();
+    }
+
+    public void deleteAllSubjects() {
+        subjectService.deleteAll();
+    }
+
+    public void deleteAllSpecialties() {
+        specialtyService.deleteAll();
+    }
+
+    public void deleteAllDepartments() {
+        departmentService.deleteAll();
+    }
+
+    public void deleteAllTeachers() {
+        teacherService.deleteAll();
+    }
+
+    public void deleteAllGroups() {
+        groupService.deleteAll();
+    }
+
+    public void deleteAllStudents() {
+        studentService.deleteAll();
+    }
+
+    public void deleteAllGroupsSubjects() {
+        groupsSubjectsService.deleteAll();
+    }
+
+    public void deleteAllListHasStudents() {
+        listHasStudentsService.deleteAll();
     }
 }

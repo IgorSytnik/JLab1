@@ -2,19 +2,23 @@ package com.company.domain.inanimate;
 
 import com.company.domain.ClassWithName;
 import com.company.domain.hei.Department;
-import com.company.domain.inanimate.subject.Work;
 import com.company.domain.people.Student;
 import com.company.exceptoins.EmptyListException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "groups")
+@ToString(exclude = {"department", "specialty", "students", "groupsSubjects"})
 public class Group extends ClassWithName {
 
     @Id
@@ -28,21 +32,18 @@ public class Group extends ClassWithName {
     @Column(name = "year", nullable = false)
     private int year;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "specialty_id", nullable = false)
     private Specialty specialty;
 
-    @OneToMany(mappedBy = "group")
-    private final List<Student> students = new ArrayList<>();
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private List<Student> students = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "group", orphanRemoval = false)
-//    private List<Work> works = new ArrayList<>();
-
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
     public Group(String name, int year, Department department, Specialty specialty) {
@@ -69,22 +70,6 @@ public class Group extends ClassWithName {
         }
     }
 
-    // ???
-    /*public boolean showStudentsList() {
-        students.sort(this.NameComparator);
-        if(students.isEmpty()) {
-            System.out.println("The list of students is empty.");
-            return false;
-        } else {
-            System.out.println("The list of students:");
-            Iterator<Student> iter = students.iterator();
-            for(int i = 1; iter.hasNext(); i++){
-                System.out.println(i + ". " + iter.next().getName());
-            }
-            return true;
-        }
-    }*/
-
     public Student getStudent(int i) throws EmptyListException {
         if (students.isEmpty()) {
             throw new EmptyListException(students.toString());
@@ -94,27 +79,43 @@ public class Group extends ClassWithName {
         return students.get(i);
     }
 
+//    @Override
+//    public String toString() {
+//        return name + ", year: " + year;
+//    }
+
+//    @Override
+//    public int hashCode() {
+//        return name.hashCode() + year + students.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this.hashCode() != obj.hashCode()) {
+//            return false;
+//        }
+//        if (obj instanceof Group) {
+//            Group anobj = (Group)obj;
+//            return this.year == anobj.year
+//                    & this.name.equals(anobj.name)
+//                    & this.students.equals(anobj.students);
+//        }
+//        return false;
+//    }
+
+
     @Override
-    public String toString() {
-        return name + ", year: " + year;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Group)) return false;
+        Group group = (Group) o;
+        return id == group.id &&
+                year == group.year &&
+                name.equals(group.name);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + year + students.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this.hashCode() != obj.hashCode()) {
-            return false;
-        }
-        if (obj instanceof Group) {
-            Group anobj = (Group)obj;
-            return this.year == anobj.year
-                    & this.name.equals(anobj.name)
-                    & this.students.equals(anobj.students);
-        }
-        return false;
+        return Objects.hash(id, name, year);
     }
 }

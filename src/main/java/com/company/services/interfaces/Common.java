@@ -9,4 +9,5 @@ public interface Common<E> {
     Collection<E> makeMany(Collection<E> collection);
     Collection<E> getAll();
     E findById(long id);
+    void deleteAll();
 }

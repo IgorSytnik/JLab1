@@ -1,20 +1,24 @@
 package com.company.domain.inanimate.subject;
 
-import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.people.Student;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Getter
 @Table(name = "list_has_students", uniqueConstraints =
     @UniqueConstraint(columnNames = {"groups_subjects_Id", "students_id"})
 )
+@ToString(exclude = {"groupsSubjects", "student", "grades"})
 public class ListHasStudents {
 
 //    @EmbeddedId
@@ -24,11 +28,11 @@ public class ListHasStudents {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "students_id", nullable = false)
     private Student student;
 
@@ -43,19 +47,51 @@ public class ListHasStudents {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "listHasStudents")
     private List<Grade> grades;
 
-    public void addAttest(boolean attest) {
-        if (attest1 == null) {
-            attest1 = attest;
-        } else {
-            attest2 = attest;
-        }
-    }
-
     public ListHasStudents(GroupsSubjects groupsSubjects, Student student) {
         this.groupsSubjects = groupsSubjects;
         this.student = student;
     }
-// inner class defined for primary key(composite keys)
+
+//    public void addAttest(boolean attest) {
+//        Date dateNow = new Date(System.currentTimeMillis());
+//
+//        Date firstB = getGroupsSubjects().getGroup().getDepartment().getFirstAttestationBeg();
+//        Date firstE = getGroupsSubjects().getGroup().getDepartment().getFirstAttestationEnd();
+//        Date secondB = getGroupsSubjects().getGroup().getDepartment().getSecondAttestationBeg();
+//        Date secondE = getGroupsSubjects().getGroup().getDepartment().getSecondAttestationEnd();
+//
+//
+//        if (attest1 == null && compareDates(dateNow, firstB, firstE)) {
+//            attest1 = attest;
+//        } else if (attest2 == null && compareDates(dateNow, secondB, secondE)) {
+//            attest2 = attest;
+//        }
+//    }
+//
+//    private boolean compareDates(Date now, Date beg, Date end) {
+//        if (beg == null || end == null) {
+//            return false;
+//        } else {
+//            return beg.compareTo(now) * now.compareTo(end) >= 0;
+//        }
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ListHasStudents)) return false;
+        ListHasStudents that = (ListHasStudents) o;
+        return id == that.id &&
+                Objects.equals(attest1, that.attest1) &&
+                Objects.equals(attest2, that.attest2);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, attest1, attest2);
+    }
+
+    // inner class defined for primary key(composite keys)
     /*@Embeddable
     @Getter
     public static class ListHasStudentsId {

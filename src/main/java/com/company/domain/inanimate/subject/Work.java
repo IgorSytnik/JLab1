@@ -5,7 +5,9 @@ import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.StudentsHasWorks;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,10 +15,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "works")
+@ToString(exclude = {"groupsSubjects", "StudentsHasWorksList"})
 public class Work extends ClassWithName {
 
     @Id
@@ -29,9 +32,9 @@ public class Work extends ClassWithName {
 
     @Column(name = "term", nullable = false)
     @Temporal(TemporalType.DATE)
-    private final Date term;
+    private Date term;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
@@ -43,8 +46,7 @@ public class Work extends ClassWithName {
 //    @JoinColumn(name = "group_id", nullable = false)
 //    private Group group;
 
-    @OneToMany(mappedBy = "primaryKey.work",
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.work", fetch = FetchType.LAZY)
     private final List<StudentsHasWorks> StudentsHasWorksList = new ArrayList<>();
 
     public Work(String name, Date term, GroupsSubjects groupsSubjects) {
@@ -53,22 +55,38 @@ public class Work extends ClassWithName {
         this.groupsSubjects = groupsSubjects;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//
+//        if (o == null || getClass() != o.getClass())
+//            return false;
+//
+//        Work that = (Work) o;
+//        return Objects.equals(term, that.term) &&
+//                Objects.equals(name, that.name) /*&&
+//                Objects.equals(subject, that.subject) &&
+//                Objects.equals(group, that.group)*/;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(term, name/*, subject, group*/);
+//    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Work that = (Work) o;
-        return Objects.equals(term, that.term) &&
-                Objects.equals(name, that.name) /*&&
-                Objects.equals(subject, that.subject) &&
-                Objects.equals(group, that.group)*/;
+        if (!(o instanceof Work)) return false;
+        Work work = (Work) o;
+        return id == work.id &&
+                name.equals(work.name) &&
+                term.equals(work.term);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(term, name/*, subject, group*/);
+        return Objects.hash(id, name, term);
     }
 }

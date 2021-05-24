@@ -5,6 +5,7 @@ import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.subject.Work;
 import com.company.repository.dao.inanimate.GroupsSubjectsRepository;
 import com.company.services.interfaces.inanimate.GroupsSubjectsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 public class GroupsSubjectsServiceImpl implements GroupsSubjectsService {
 
+    @Autowired
     GroupsSubjectsRepository repository;
 
     @Override
@@ -22,7 +24,9 @@ public class GroupsSubjectsServiceImpl implements GroupsSubjectsService {
 
     @Override
     public Collection<GroupsSubjects> makeMany(Collection<GroupsSubjects> collection) {
-        return repository.saveAll(collection);
+        Collection<GroupsSubjects> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
@@ -39,5 +43,10 @@ public class GroupsSubjectsServiceImpl implements GroupsSubjectsService {
     @Override
     public List<Work> getWorks(long id) {
         return findById(id).getWorks();
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

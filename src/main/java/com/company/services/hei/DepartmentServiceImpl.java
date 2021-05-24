@@ -1,12 +1,14 @@
 package com.company.services.hei;
 
 import com.company.domain.hei.Department;
+import com.company.domain.inanimate.subject.GradeDate;
 import com.company.repository.dao.hei.DepartmentRepository;
 import com.company.services.interfaces.hei.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,7 +24,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Collection<Department> makeMany(Collection<Department> collection) {
-        return repository.saveAll(collection);
+        Collection<Department> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
@@ -35,6 +39,28 @@ public class DepartmentServiceImpl implements DepartmentService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Couldn't find department with id " + id));
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @Override
+    public void addFirstAttestDates(long departmentId, Date beg, Date end) {
+        Department department = repository.getOne(departmentId);
+        department.setFirstAttestationBeg(beg);
+        department.setFirstAttestationEnd(end);
+        repository.saveAndFlush(department);
+    }
+
+    @Override
+    public void addSecondAttestDates(long departmentId, Date beg, Date end) {
+        Department department = repository.getOne(departmentId);
+        department.setSecondAttestationBeg(beg);
+        department.setSecondAttestationEnd(end);
+        repository.saveAndFlush(department);
+    }
+
 
     /*public List<Group> findGroupsByYear(int year) {
         throw new NotImplementedException("");

@@ -1,16 +1,23 @@
 package com.company.domain.inanimate.subject;
 
 import com.company.domain.inanimate.GroupsSubjects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "grade_dates", uniqueConstraints =
         @UniqueConstraint(columnNames = {"groups_subjects_id", "date"})
 )
+@ToString(exclude = {"groupsSubjects", "grades"})
+@Getter
 public class GradeDate {
 
     @Id
@@ -28,11 +35,11 @@ public class GradeDate {
 //    })
 //    private GroupsSubjects groupsSubjects;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-    @OneToMany(mappedBy = "gradeDate")
+    @OneToMany(mappedBy = "gradeDate", fetch = FetchType.LAZY)
     private List<Grade> grades = new ArrayList<>();
 
     public GradeDate(Date date, GroupsSubjects groupsSubjects) {
@@ -40,4 +47,17 @@ public class GradeDate {
         this.groupsSubjects = groupsSubjects;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GradeDate)) return false;
+        GradeDate gradeDate = (GradeDate) o;
+        return id == gradeDate.id &&
+                date.equals(gradeDate.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date);
+    }
 }

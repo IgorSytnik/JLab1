@@ -1,6 +1,7 @@
 package com.company.services.inanimate.subject;
 
 import com.company.domain.hei.Department;
+import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
 import com.company.repository.dao.inanimate.subject.SubjectRepository;
 import com.company.services.interfaces.inanimate.subject.SubjectService;
@@ -29,11 +30,18 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Collection<Subject> makeMany(Collection<Subject> collection) {
-        return repository.saveAll(collection);
+        Collection<Subject> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
     public List<Subject> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

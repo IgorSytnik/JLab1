@@ -5,17 +5,21 @@ import com.company.exceptoins.EmptyListException;
 import com.company.domain.people.AcademicPosition;
 import com.company.domain.inanimate.Group;
 import com.company.domain.people.Teacher;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Entity
+@Getter
+@ToString(exclude = {"faculty", "groups", "teachers"})
 @Table(name = "departments")
+@Setter
 public class Department extends Institution {
 
     @Id
@@ -26,7 +30,7 @@ public class Department extends Institution {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(/*fetch = FetchType.EAGER*/)
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
 
@@ -46,26 +50,28 @@ public class Department extends Institution {
     @Temporal(TemporalType.DATE)
     private Date SecondAttestationEnd;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private final List<Group> groups = new ArrayList<>();
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private final List<Teacher> teachers = new ArrayList<>();
 
-    private final Date[] attestTerms = new Date[4];
-    private int attestTermCount = 0;
+//    @Transient
+//    private final Date[] attestTerms = new Date[4];
+//    @Transient
+//    private int attestTermCount = 0;
 
     public Department(String name, Faculty faculty) {
         this.name = name;
         this.faculty = faculty;
     }
 
-    public void attestTerm(Date date1, Date date2) {
-        if (attestTerms.length - 1 >= attestTermCount)
-            throw new AttestationException("Can't add attestation terms");
-        attestTerms[attestTermCount++] = date1;
-        attestTerms[attestTermCount++] = date2;
-    }
+//    public void attestTerm(Date date1, Date date2) {
+//        if (attestTerms.length - 1 >= attestTermCount)
+//            throw new AttestationException("Can't add attestation terms");
+//        attestTerms[attestTermCount++] = date1;
+//        attestTerms[attestTermCount++] = date2;
+//    }
 
     private boolean lookUp(final String obName) {
         return groups.stream().anyMatch(o -> o.getName().equals(obName));
@@ -93,22 +99,6 @@ public class Department extends Institution {
             teachers.add(teacher);
             return true;
         }
-    }
-
-    public boolean showGroupsList() {
-        return showList(groups, "groups");
-    }
-
-    public boolean showTeachersList() {
-        return showList(teachers, "teachers");
-    }
-
-    public Group getGroup(int i) throws EmptyListException {
-        return (Group) getOne(groups, "groups", i);
-    }
-
-    public Teacher getTeacher(int i) throws EmptyListException {
-        return (Teacher) getOne(teachers, "teachers", i);
     }
 
     /** group list lambdas */
@@ -157,37 +147,55 @@ public class Department extends Institution {
                 collect(Collectors.partitioningBy(t -> t.getPosition().equals(position)));
     }
 
-    /**
-     * @return copy of teacher list
-     * */
-    public List<Teacher> getTeachersList() {
-        return List.copyOf(teachers);
-    }
+//    /**
+//     * @return copy of teacher list
+//     * */
+//    public List<Teacher> getTeachersList() {
+//        return List.copyOf(teachers);
+//    }
+//
+//    /**
+//     * @return copy of group list
+//     * */
+//    public List<Group> getGroupsList() {
+//        return List.copyOf(groups);
+//    }
 
-    /**
-     * @return copy of group list
-     * */
-    public List<Group> getGroupsList() {
-        return List.copyOf(groups);
+//    @Override
+//    public int hashCode() {
+//        return name.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this.hashCode() != obj.hashCode()) {
+//            return false;
+//        }
+//        if (obj instanceof Department) {
+//            Department anobj = (Department)obj;
+//            return this.name.equals(anobj.name);
+//        }
+//        return false;
+//    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Department)) return false;
+        Department that = (Department) o;
+        return id == that.id &&
+                name.equals(that.name) &&
+                Objects.equals(FirstAttestationBeg, that.FirstAttestationBeg) &&
+                Objects.equals(FirstAttestationEnd, that.FirstAttestationEnd) &&
+                Objects.equals(SecondAttestationBeg, that.SecondAttestationBeg) &&
+                Objects.equals(SecondAttestationEnd, that.SecondAttestationEnd);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + groups.hashCode() + teachers.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this.hashCode() != obj.hashCode()) {
-            return false;
-        }
-        if (obj instanceof Department) {
-            Department anobj = (Department)obj;
-            return this.name.equals(anobj.name)
-                    & this.groups.equals(anobj.groups)
-                    & this.teachers.equals(anobj.teachers);
-        }
-        return false;
+        return Objects.hash(id, name, FirstAttestationBeg, FirstAttestationEnd,
+                SecondAttestationBeg, SecondAttestationEnd);
     }
 }
 

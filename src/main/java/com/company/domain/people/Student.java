@@ -7,14 +7,18 @@ import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.inanimate.subject.Work;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.*;
 
+@NoArgsConstructor
 @Entity
 @Getter
 @Table(name = "students")
+@ToString(exclude = {"group", "StudentsHasWorksList", "listHasStudentsList"})
 public class Student extends ClassWithName {
 
     @Id
@@ -25,38 +29,34 @@ public class Student extends ClassWithName {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", nullable = false)
     @Setter
     private Group group;
 
-    @OneToMany(mappedBy = "primaryKey.student",
-            cascade = CascadeType.ALL)
-    private List<StudentsHasWorks> StudentsHasWorksList = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.student", fetch = FetchType.LAZY)
+    private List<StudentsHasWorks> StudentsHasWorksList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<ListHasStudents> listHasStudentsList;
 
     public Student(String name, Group group, List<Subject> subjectList) {
         this.name = name;
         this.group = group;
-//        for (Subject subject:
-//             subjectList) {
-//            subjects.put(subject, new SubjectAttest());
-//        }
     }
     public Student(String name, Group group) {
         this.name = name;
         this.group = group;
     }
+
     /*public Student(String name, String groupName, List<Subject> subjectList) {
-        this.name = name;
-        this.groupName = groupName;
-//        for (Subject subject:
-//                subjectList) {
-//            subjects.put(subject, new SubjectAttest());
-//        }
-    }*/
+            this.name = name;
+            this.groupName = groupName;
+    //        for (Subject subject:
+    //                subjectList) {
+    //            subjects.put(subject, new SubjectAttest());
+    //        }
+        }*/
     public Student(String name) {
         this.name = name;
     }
@@ -93,28 +93,42 @@ public class Student extends ClassWithName {
 //        }
 //        return false;
 //    }
+//    @Override
+//    public String toString() {
+//        return name + ", group: " + group;
+//    }
+
     @Override
-    public String toString() {
-        return name + ", group: " + group;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return id == student.id &&
+                name.equals(student.name);
     }
 
-//    @Override
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    //    @Override
 //    public int hashCode() {
 //        return name.hashCode();
 //    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this.hashCode() != obj.hashCode()) {
-            return false;
-        }
-        if (obj instanceof Student) {
-            Student anobj = (Student)obj;
-            return this.name.equals(anobj.name)
-                    & this.group.equals(anobj.group)
-//                    & this.subjects.equals(anobj.subjects)
-                    ;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this.hashCode() != obj.hashCode()) {
+//            return false;
+//        }
+//        if (obj instanceof Student) {
+//            Student anobj = (Student)obj;
+//            return this.name.equals(anobj.name)
+//                    & this.group.equals(anobj.group)
+////                    & this.subjects.equals(anobj.subjects)
+//                    ;
+//        }
+//        return false;
+//    }
 }

@@ -1,12 +1,11 @@
 package com.company.context;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -52,19 +51,12 @@ public class HibernateConfig {
         return em;
     }
 
-//    Properties additionalProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-//
-//        return properties;
-//    }
-
-//    @Bean
+    @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource, Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setPackagesToScan("com.company.domain"); // String... packagesToScan
+
         sessionFactory.setHibernateProperties(hibernateProperties);
 
         return sessionFactory;

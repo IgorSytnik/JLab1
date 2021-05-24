@@ -2,15 +2,21 @@ package com.company.domain.hei;
 
 import com.company.exceptoins.EmptyListException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name = "faculties")
+@ToString(exclude = {"departments"})
 public class Faculty extends Institution {
 
     @Id
@@ -21,13 +27,8 @@ public class Faculty extends Institution {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @OneToMany(mappedBy = "faculty")
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
     private List<Department> departments = new ArrayList<>();
-
-//    public Faculty() throws IOException {
-//        this.name = this.enterName();
-//    }
-    public Faculty() { }
 
     public Faculty(String name) {
         this.name = name;
@@ -42,17 +43,12 @@ public class Faculty extends Institution {
             throw new IllegalArgumentException("department must not be null");
         }
         if(lookUp(department.getName())) {
-//            System.out.println("This faculty already has this department ");
             return false;
         } else {
             departments.add(department);
             return true;
         }
     }
-
-//    public boolean addDepartment() throws IOException {
-//        return addDepartment(new Department());
-//    }
 
     public boolean showDepartmentList() {
         return showList(departments, "departments");
@@ -62,25 +58,40 @@ public class Faculty extends Institution {
         return (Department) getOne(departments, "departments", i);
     }
 
+//    @Override
+//    public String toString() {
+//        return id + " " + name;
+//    }
+
+//    @Override
+//        public int hashCode() {
+//        return name.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this.hashCode() != obj.hashCode()) {
+//            return false;
+//        }
+//        if (obj instanceof Faculty) {
+//            Faculty anobj = (Faculty)obj;
+//            return this.name.equals(anobj.name);
+//        }
+//        return false;
+//    }
+
+
     @Override
-    public String toString() {
-        return id + " " + name;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Faculty)) return false;
+        Faculty faculty = (Faculty) o;
+        return id == faculty.id &&
+                name.equals(faculty.name);
     }
 
     @Override
-        public int hashCode() {
-        return name.hashCode() + departments.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this.hashCode() != obj.hashCode()) {
-            return false;
-        }
-        if (obj instanceof Faculty) {
-            Faculty anobj = (Faculty)obj;
-            return this.name.equals(anobj.name) & this.departments.equals(anobj.departments);
-        }
-        return false;
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

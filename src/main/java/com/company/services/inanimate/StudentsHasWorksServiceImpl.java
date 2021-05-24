@@ -1,8 +1,10 @@
 package com.company.services.inanimate;
 
+import com.company.domain.inanimate.Specialty;
 import com.company.domain.inanimate.StudentsHasWorks;
 import com.company.repository.dao.inanimate.StudentsHasWorksRepository;
 import com.company.services.interfaces.inanimate.StudentsHasWorksService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -10,6 +12,7 @@ import java.util.Collection;
 @Service
 public class StudentsHasWorksServiceImpl implements StudentsHasWorksService {
 
+    @Autowired
     StudentsHasWorksRepository repository;
 
     @Override
@@ -19,7 +22,9 @@ public class StudentsHasWorksServiceImpl implements StudentsHasWorksService {
 
     @Override
     public Collection<StudentsHasWorks> makeMany(Collection<StudentsHasWorks> collection) {
-        return repository.saveAll(collection);
+        Collection<StudentsHasWorks> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
     @Override
@@ -31,5 +36,10 @@ public class StudentsHasWorksServiceImpl implements StudentsHasWorksService {
     public StudentsHasWorks findById(long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Couldn't find student's work with id " + id));
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }
