@@ -1,3 +1,4 @@
+/*
 package com.company.domain.hei;
 
 import com.company.exceptoins.EmptyListException;
@@ -7,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FacultyTest {
 
-    /**
-     * helping objects*/
+    */
+/**
+     * helping objects*//*
+
     Faculty obj = new Faculty("Shaq");
     Department department = new Department("APEPS");
 
@@ -54,4 +57,4 @@ class FacultyTest {
 
         assertNotNull(obj.getDepartment(0));
     }
-}
+}*/

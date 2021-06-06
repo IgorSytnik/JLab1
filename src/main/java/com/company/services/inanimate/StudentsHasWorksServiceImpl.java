@@ -4,14 +4,18 @@ import com.company.domain.inanimate.Specialty;
 import com.company.domain.inanimate.StudentsHasWorks;
 import com.company.repository.dao.inanimate.StudentsHasWorksRepository;
 import com.company.services.interfaces.inanimate.StudentsHasWorksService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 
 @Service
-public class StudentsHasWorksServiceImpl implements StudentsHasWorksService {
+public class StudentsHasWorksServiceImpl extends StudentsHasWorksService {
 
+    @Getter
     @Autowired
     StudentsHasWorksRepository repository;
 

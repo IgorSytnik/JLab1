@@ -10,7 +10,6 @@ import java.util.List;
 
 public abstract class Institution extends ClassWithName {
 
-    // TODO Institution Throw it to view or something
     @Override
     public String enterName() throws IOException {
         return this.enterName("Please enter the name:", "[a-zA-Z_0-9\\s]+");
@@ -20,11 +19,9 @@ public abstract class Institution extends ClassWithName {
     protected boolean showList(List col, String name) {
         col.sort(this.NameComparator);
         if(col.isEmpty()) {
-            // TODO Institution.showList Throw ex "The list of " + name + " is empty." EmptyListEx??
             System.out.println("The list of " + name + " is empty.");
             return false;
         } else {
-            // TODO Institution.showList Return String ?
             System.out.println("The list of " + name + ':');
             Iterator<ClassWithName> iter = col.iterator();
             for(int i = 1; iter.hasNext(); i++){

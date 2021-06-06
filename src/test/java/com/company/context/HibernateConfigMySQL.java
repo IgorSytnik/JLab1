@@ -32,15 +32,15 @@ public class HibernateConfigMySQL {
         validate – Hibernate only validates whether the tables and columns exist, otherwise it throws an exception
         none – this value effectively turns off the DDL generation
          */
-    private Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "create");
-        hibernateProperties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
-        hibernateProperties.setProperty("hibernate.format_sql", "true");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-        return hibernateProperties;
-    }
+//    private Properties hibernateProperties() {
+//        Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty(
+//                "hibernate.hbm2ddl.auto", "create");
+//        hibernateProperties.setProperty(
+//                "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//
+//        hibernateProperties.setProperty("hibernate.format_sql", "true");
+//        hibernateProperties.setProperty("hibernate.show_sql", "true");
+//        return hibernateProperties;
+//    }
 }

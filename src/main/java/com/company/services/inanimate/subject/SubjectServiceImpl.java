@@ -5,15 +5,18 @@ import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
 import com.company.repository.dao.inanimate.subject.SubjectRepository;
 import com.company.services.interfaces.inanimate.subject.SubjectService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class SubjectServiceImpl implements SubjectService {
+public class SubjectServiceImpl extends SubjectService {
 
+    @Getter
     @Autowired
     private SubjectRepository repository;
 

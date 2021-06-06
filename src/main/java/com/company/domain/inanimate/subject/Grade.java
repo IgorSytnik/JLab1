@@ -2,6 +2,7 @@ package com.company.domain.inanimate.subject;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name = "grades", uniqueConstraints =
     @UniqueConstraint(columnNames = {"grade_dates_id", "list_has_students_id"})
 )

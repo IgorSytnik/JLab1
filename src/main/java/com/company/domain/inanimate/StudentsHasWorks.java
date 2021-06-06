@@ -77,6 +77,7 @@ public class StudentsHasWorks {
     @Embeddable
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class StudentWorkId implements Serializable {
 
         @ManyToOne(fetch = FetchType.EAGER)

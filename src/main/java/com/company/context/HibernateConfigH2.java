@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @Profile("h2")
@@ -34,17 +33,17 @@ public class HibernateConfigH2 {
          */
 
     //   @Bean
-    public Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "create-drop"); //update, validate, create, create-drop
-        hibernateProperties.setProperty(
-                "hibernate.dialect",
-                "org.hibernate.dialect.H2Dialect"
-        );
-        hibernateProperties.setProperty("hibernate.format_sql", "true");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-
-        return hibernateProperties;
-    }
+//    public Properties hibernateProperties() {
+//        Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty(
+//                "hibernate.hbm2ddl.auto", "create"); //update, validate, create, create-drop
+//        hibernateProperties.setProperty(
+//                "hibernate.dialect",
+//                "org.hibernate.dialect.H2Dialect"
+//        );
+//        hibernateProperties.setProperty("hibernate.format_sql", "true");
+//        hibernateProperties.setProperty("hibernate.show_sql", "true");
+//
+//        return hibernateProperties;
+//    }
 }

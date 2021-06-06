@@ -4,15 +4,18 @@ import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.inanimate.subject.Work;
 import com.company.repository.dao.inanimate.subject.WorkRepository;
 import com.company.services.interfaces.inanimate.subject.WorkService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class WorkServiceImpl implements WorkService {
+public class WorkServiceImpl extends WorkService {
 
+    @Getter
     @Autowired
     private WorkRepository repository;
 

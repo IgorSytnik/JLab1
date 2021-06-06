@@ -1,17 +1,21 @@
 package com.company.services.inanimate.subject;
 
+import com.company.domain.hei.Faculty;
 import com.company.domain.inanimate.subject.GradeDate;
 import com.company.repository.dao.inanimate.subject.GradeDateRepository;
 import com.company.repository.dao.inanimate.subject.GradeRepository;
 import com.company.services.interfaces.inanimate.subject.GradeDateService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 
 @Service
-public class GradeDateServiceImpl implements GradeDateService {
+public class GradeDateServiceImpl extends GradeDateService {
 
+    @Getter
     @Autowired
     private GradeDateRepository repository;
 

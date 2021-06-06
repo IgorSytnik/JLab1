@@ -1,8 +1,8 @@
 package com.company.domain.inanimate;
 
-import com.company.domain.ClassWithName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,10 +12,11 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "specialties")
 @ToString(exclude = {"groups"})
-public class Specialty extends ClassWithName {
+public class Specialty /*extends ClassWithName*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,8 @@ public class Specialty extends ClassWithName {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "specialty", fetch = FetchType.LAZY)
+    @Transient
+//    @OneToMany(mappedBy = "specialty", fetch = FetchType.LAZY)
     private final List<Group> groups = new ArrayList<>();
 
     public Specialty(String name) {
@@ -78,7 +80,6 @@ public class Specialty extends ClassWithName {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
 
 //    @Override
 //    public boolean equals(Object o) {

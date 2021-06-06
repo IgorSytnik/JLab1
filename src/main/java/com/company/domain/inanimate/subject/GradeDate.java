@@ -3,6 +3,7 @@ package com.company.domain.inanimate.subject;
 import com.company.domain.inanimate.GroupsSubjects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,11 +14,12 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "grade_dates", uniqueConstraints =
         @UniqueConstraint(columnNames = {"groups_subjects_id", "date"})
 )
 @ToString(exclude = {"groupsSubjects", "grades"})
-@Getter
 public class GradeDate {
 
     @Id
@@ -39,7 +41,7 @@ public class GradeDate {
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-    @OneToMany(mappedBy = "gradeDate", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "gradeDate", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Grade> grades = new ArrayList<>();
 
     public GradeDate(Date date, GroupsSubjects groupsSubjects) {

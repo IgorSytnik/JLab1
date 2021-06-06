@@ -45,9 +45,9 @@ class TeacherControllerIT {
         final LocalDate dateYesterday = dateNow.plus(-1, ChronoUnit.DAYS);
         final LocalDate dateTomorrow = dateNow.plus(1, ChronoUnit.DAYS);
         date1 = java.sql.Date.valueOf(LocalDate.of
-                (dateYesterday.getYear(), dateYesterday.getMonth(), dateYesterday.getDayOfMonth()-1));
+                (dateYesterday.getYear(), dateYesterday.getMonth(), dateYesterday.getDayOfMonth()));
         date2 = java.sql.Date.valueOf(LocalDate.of
-                (dateTomorrow.getYear(), dateTomorrow.getMonth(), dateTomorrow.getDayOfMonth()+1));
+                (dateTomorrow.getYear(), dateTomorrow.getMonth(), dateTomorrow.getDayOfMonth()));
         date3 = java.sql.Date.valueOf(LocalDate.of
                 (2021, Month.JUNE, 7));
         date4 = java.sql.Date.valueOf(LocalDate.of
@@ -186,6 +186,7 @@ class TeacherControllerIT {
         moderatorController.deleteAllListHasStudents();
         moderatorController.deleteAllStudents();
         moderatorController.deleteAllGroupsSubjects();
+        moderatorController.deleteAllSubjects();
         moderatorController.deleteAllGroups();
         moderatorController.deleteAllSpecialties();
         moderatorController.deleteAllTeachers();
@@ -240,6 +241,7 @@ class TeacherControllerIT {
         moderatorController.deleteAllListHasStudents();
         moderatorController.deleteAllStudents();
         moderatorController.deleteAllGroupsSubjects();
+        moderatorController.deleteAllSubjects();
         moderatorController.deleteAllGroups();
         moderatorController.deleteAllSpecialties();
         moderatorController.deleteAllTeachers();

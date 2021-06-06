@@ -4,15 +4,19 @@ import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.Specialty;
 import com.company.repository.dao.inanimate.SpecialtyRepository;
 import com.company.services.interfaces.inanimate.SpecialtyService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class SpecialtyServiceImpl implements SpecialtyService {
+public class SpecialtyServiceImpl extends SpecialtyService {
 
+    @Getter
     @Autowired
     SpecialtyRepository repository;
 

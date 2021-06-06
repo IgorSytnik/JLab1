@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name = "list_has_students", uniqueConstraints =
     @UniqueConstraint(columnNames = {"groups_subjects_Id", "students_id"})
 )
@@ -28,23 +31,22 @@ public class ListHasStudents {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(/*fetch = FetchType.EAGER*/)
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(/*fetch = FetchType.EAGER*/)
     @JoinColumn(name = "students_id", nullable = false)
     private Student student;
 
-    @Setter
     @Column(name = "attestation_first", columnDefinition = "TINYINT(1)")
     private Boolean attest1;
 
-    @Setter
     @Column(name = "attestation_second", columnDefinition = "TINYINT(1)")
     private Boolean attest2;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "listHasStudents")
+    @OneToMany(/*fetch = FetchType.EAGER, */mappedBy = "listHasStudents", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Grade> grades;
 
     public ListHasStudents(GroupsSubjects groupsSubjects, Student student) {

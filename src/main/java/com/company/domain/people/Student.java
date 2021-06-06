@@ -1,11 +1,9 @@
 package com.company.domain.people;
 
-import com.company.domain.ClassWithName;
 import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.StudentsHasWorks;
 import com.company.domain.inanimate.subject.ListHasStudents;
 import com.company.domain.inanimate.subject.Subject;
-import com.company.domain.inanimate.subject.Work;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,9 +15,10 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name = "students")
 @ToString(exclude = {"group", "StudentsHasWorksList", "listHasStudentsList"})
-public class Student extends ClassWithName {
+public class Student /*extends ClassWithName*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +30,12 @@ public class Student extends ClassWithName {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", nullable = false)
-    @Setter
     private Group group;
 
-    @OneToMany(mappedBy = "primaryKey.student", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "primaryKey.student", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<StudentsHasWorks> StudentsHasWorksList;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ListHasStudents> listHasStudentsList;
 
     public Student(String name, Group group, List<Subject> subjectList) {

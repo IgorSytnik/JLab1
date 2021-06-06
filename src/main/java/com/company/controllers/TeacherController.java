@@ -1,11 +1,13 @@
 package com.company.controllers;
 
+import com.company.domain.hei.Department;
+import com.company.domain.hei.Faculty;
+import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
-import com.company.domain.inanimate.subject.Grade;
-import com.company.domain.inanimate.subject.GradeDate;
-import com.company.domain.inanimate.subject.ListHasStudents;
-import com.company.domain.inanimate.subject.Work;
+import com.company.domain.inanimate.Specialty;
+import com.company.domain.inanimate.subject.*;
 import com.company.domain.people.Student;
+import com.company.domain.people.Teacher;
 import com.company.services.interfaces.inanimate.GroupsSubjectsService;
 import com.company.services.interfaces.inanimate.subject.*;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +110,7 @@ public class TeacherController {
         return gradeService.makeMany(gradeList);
     }
 
-    @Transactional
+//    @Transactional
     public Collection<ListHasStudents> getStudentList(long groupsSubjectsId) {
         return groupsSubjectsService.findById(groupsSubjectsId).getListHasStudentsList();
     }
@@ -139,5 +141,47 @@ public class TeacherController {
 
     public void deleteAllGrades() {
         gradeService.deleteAll();
+    }
+
+    /*updaters*/
+//    @Put
+    public GradeDate updateGradeDate(GradeDate gradeDate) {
+        return gradeDateService.update(gradeDate);
+    }
+
+    public Work updateWork(Work work) {
+        return workService.update(work);
+    }
+
+    public Grade updateGrade(Grade grade) {
+        return gradeService.update(grade);
+    }
+
+    /*getters*/
+
+    public Optional<GradeDate> getGradeDate(long id) {
+        return gradeDateService.get(id);
+    }
+
+    public Optional<Work> getWork(long id) {
+        return workService.get(id);
+    }
+
+    public Optional<Grade> getGrade(long id) {
+        return gradeService.get(id);
+    }
+
+    /*deleters*/
+
+    public void deleteGradeDate(long id) {
+        gradeDateService.delete(id);
+    }
+
+    public void deleteWork(long id) {
+        workService.delete(id);
+    }
+
+    public void deleteGrade(long id) {
+        gradeService.delete(id);
     }
 }

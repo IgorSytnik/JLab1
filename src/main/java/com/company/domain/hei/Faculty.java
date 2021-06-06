@@ -15,7 +15,9 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name = "faculties")
+@Table(name = "faculties", uniqueConstraints =
+@UniqueConstraint(columnNames = {"name"})
+)
 @ToString(exclude = {"departments"})
 public class Faculty extends Institution {
 

@@ -1,13 +1,11 @@
 package com.company.domain.inanimate;
 
-import com.company.domain.ClassWithName;
 import com.company.domain.hei.Department;
 import com.company.domain.people.Student;
 import com.company.exceptoins.EmptyListException;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,10 +14,14 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
-@Table(name = "groups")
+//"groups" is a reserved keyword in mysql
+@Table(name = "groups_table", uniqueConstraints =
+    @UniqueConstraint(columnNames = {"name", "year", "department_id"})
+)
 @ToString(exclude = {"department", "specialty", "students", "groupsSubjects"})
-public class Group extends ClassWithName {
+public class Group /*extends ClassWithName*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +45,8 @@ public class Group extends ClassWithName {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Student> students = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group"/*, fetch = FetchType.LAZY*/)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<GroupsSubjects> groupsSubjects = new ArrayList<>();
 
     public Group(String name, int year, Department department, Specialty specialty) {

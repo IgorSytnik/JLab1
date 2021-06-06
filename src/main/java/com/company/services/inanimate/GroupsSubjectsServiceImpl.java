@@ -5,15 +5,18 @@ import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.subject.Work;
 import com.company.repository.dao.inanimate.GroupsSubjectsRepository;
 import com.company.services.interfaces.inanimate.GroupsSubjectsService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class GroupsSubjectsServiceImpl implements GroupsSubjectsService {
+public class GroupsSubjectsServiceImpl extends GroupsSubjectsService {
 
+    @Getter
     @Autowired
     GroupsSubjectsRepository repository;
 

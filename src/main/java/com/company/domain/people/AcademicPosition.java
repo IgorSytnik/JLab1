@@ -1,5 +1,8 @@
 package com.company.domain.people;
 
+import lombok.Getter;
+
+@Getter
 public enum AcademicPosition {
     ASPIRANT("Aspirant"),
     ASSISTANT("Assistant"),

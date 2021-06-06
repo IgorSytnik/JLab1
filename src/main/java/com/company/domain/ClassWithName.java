@@ -1,7 +1,5 @@
 package com.company.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.IOException;
 import java.util.Comparator;
 

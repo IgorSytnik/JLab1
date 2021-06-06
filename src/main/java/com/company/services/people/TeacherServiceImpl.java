@@ -4,14 +4,18 @@ import com.company.domain.people.Student;
 import com.company.domain.people.Teacher;
 import com.company.repository.dao.people.TeacherRepository;
 import com.company.services.interfaces.people.TeacherService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 
 @Service
-public class TeacherServiceImpl implements TeacherService {
+public class TeacherServiceImpl extends TeacherService {
 
+    @Getter
     @Autowired
     TeacherRepository repository;
 

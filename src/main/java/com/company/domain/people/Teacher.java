@@ -1,10 +1,10 @@
 package com.company.domain.people;
 
-import com.company.domain.ClassWithName;
 import com.company.domain.hei.Department;
 import com.company.domain.inanimate.GroupsSubjects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -16,8 +16,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "teachers")
 @Getter
+@Setter
 @ToString(exclude = {"department", "groupsSubjects"})
-public class Teacher extends ClassWithName {
+public class Teacher /*extends ClassWithName*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

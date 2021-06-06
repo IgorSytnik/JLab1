@@ -27,6 +27,7 @@ public class HibernateConfig {
     public PlatformTransactionManager transactionManager(DataSource dataSource, Properties hibernateProperties) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory(dataSource, hibernateProperties).getObject());
+//        transactionManager.setEntityManagerFactory(sessionFactory(dataSource, hibernateProperties).getObject());
 
         return transactionManager;
     }
@@ -41,7 +42,7 @@ public class HibernateConfig {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.company.domain"); // String... packagesToScan
+        em.setPackagesToScan("com.company.domain", "com.company.controllers"); // String... packagesToScan
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -55,8 +56,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource, Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        sessionFactory.setPackagesToScan("com.company.domain"); // String... packagesToScan
-
+        sessionFactory.setPackagesToScan("com.company.domain", "com.company.controllers"); // String... packagesToScan
         sessionFactory.setHibernateProperties(hibernateProperties);
 
         return sessionFactory;

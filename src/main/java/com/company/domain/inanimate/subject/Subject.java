@@ -1,9 +1,9 @@
 package com.company.domain.inanimate.subject;
 
-import com.company.domain.ClassWithName;
 import com.company.domain.inanimate.GroupsSubjects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,10 +13,13 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
-@Table(name = "subjects")
+@Table(name = "subjects", uniqueConstraints =
+@UniqueConstraint(columnNames = {"name"})
+)
 @ToString(exclude = {"groupsSubjects"})
-public class Subject extends ClassWithName {
+public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +28,6 @@ public class Subject extends ClassWithName {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-//    @OneToMany(mappedBy = "subject", orphanRemoval = false)
-//    private final List<Work> works = new ArrayList<>();
 
     @OneToMany(mappedBy = "subject",
             cascade = CascadeType.ALL, fetch = FetchType.LAZY)

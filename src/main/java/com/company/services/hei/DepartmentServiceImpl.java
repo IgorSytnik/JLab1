@@ -1,19 +1,24 @@
 package com.company.services.hei;
 
 import com.company.domain.hei.Department;
+import com.company.domain.hei.Faculty;
 import com.company.domain.inanimate.subject.GradeDate;
 import com.company.repository.dao.hei.DepartmentRepository;
 import com.company.services.interfaces.hei.DepartmentService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentServiceImpl extends DepartmentService {
 
+    @Getter
     @Autowired
     private DepartmentRepository repository;
 

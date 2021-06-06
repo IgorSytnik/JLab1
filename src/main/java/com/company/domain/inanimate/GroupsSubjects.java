@@ -6,6 +6,8 @@ import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.inanimate.subject.Work;
 import com.company.domain.people.Teacher;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,13 +50,15 @@ public class GroupsSubjects {
     @JoinColumn(name = "teachers_id", nullable = false)
     private Teacher teacher;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
+    @OneToMany(/*fetch = FetchType.LAZY, */mappedBy = "groupsSubjects", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<GradeDate> gradeDateList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "groupsSubjects")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "groupsSubjects", orphanRemoval = true)
     private List<ListHasStudents> listHasStudentsList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupsSubjects")
+    @OneToMany(/*fetch = FetchType.EAGER, */mappedBy = "groupsSubjects", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Work> works = new ArrayList<>();
 
     public GroupsSubjects(Group group, Subject subject, Teacher teacher) {

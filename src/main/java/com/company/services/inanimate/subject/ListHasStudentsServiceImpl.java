@@ -8,8 +8,10 @@ import com.company.domain.people.Student;
 import com.company.repository.dao.inanimate.GroupRepository;
 import com.company.repository.dao.inanimate.subject.ListHasStudentsRepository;
 import com.company.services.interfaces.inanimate.subject.ListHasStudentsService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
 import java.util.Collection;
 import java.util.Date;
@@ -17,8 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ListHasStudentsServiceImpl implements ListHasStudentsService {
+public class ListHasStudentsServiceImpl extends ListHasStudentsService {
 
+    @Getter
     @Autowired
     private ListHasStudentsRepository repository;
 

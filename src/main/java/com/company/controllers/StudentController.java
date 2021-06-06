@@ -8,6 +8,7 @@ import com.company.services.interfaces.people.StudentService;
 import com.company.services.interfaces.inanimate.subject.WorkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class StudentController {
     private final GroupsSubjectsService groupsSubjectsService;
     private final StudentsHasWorksService studentsHasWorksService;
 
-    public List<Work> getWorks(long groupsSubjectsId) {
+    public List<Work> getAllWorks(long groupsSubjectsId) {
         return groupsSubjectsService.findById(groupsSubjectsId).getWorks();
     }
 
@@ -42,12 +43,15 @@ public class StudentController {
                     .collect(Collectors.toList());
     }
 
+//    @Transactional
     public List<StudentsHasWorks> getDoneWorks(long studentId) {
         return studentService.findById(studentId).getStudentsHasWorksList();
     }
 
     public List<StudentsHasWorks> getDoneWorksBySubject(long studentId, long groupsSubjectsId) {
-        return studentService.findById(studentId).getStudentsHasWorksList();
+        return studentService.findById(studentId).getStudentsHasWorksList().stream()
+                .filter(w -> w.getPrimaryKey().getWork().getGroupsSubjects().getId() == groupsSubjectsId)
+                .collect(Collectors.toList());
     }
 
     public StudentsHasWorks handOverWork(long studentId, long workId, String file) {
@@ -56,5 +60,9 @@ public class StudentController {
                 file,
                 studentService.findById(studentId),
                 workService.findById(workId)));
+    }
+
+    public void deleteAllDoneWorks() {
+        studentsHasWorksService.deleteAll();
     }
 }

@@ -1,13 +1,9 @@
 package com.company.domain.inanimate.subject;
 
-import com.company.domain.ClassWithName;
 import com.company.domain.inanimate.Group;
 import com.company.domain.inanimate.GroupsSubjects;
 import com.company.domain.inanimate.StudentsHasWorks;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,10 +13,11 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "works")
 @ToString(exclude = {"groupsSubjects", "StudentsHasWorksList"})
-public class Work extends ClassWithName {
+public class Work /*extends ClassWithName*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +35,7 @@ public class Work extends ClassWithName {
     @JoinColumn(name = "groups_subjects_Id", nullable = false)
     private GroupsSubjects groupsSubjects;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "subject_id", nullable = false)
-//    private Subject subject;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "group_id", nullable = false)
-//    private Group group;
-
-    @OneToMany(mappedBy = "primaryKey.work", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "primaryKey.work", fetch = FetchType.LAZY, orphanRemoval = true)
     private final List<StudentsHasWorks> StudentsHasWorksList = new ArrayList<>();
 
     public Work(String name, Date term, GroupsSubjects groupsSubjects) {

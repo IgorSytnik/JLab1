@@ -1,7 +1,5 @@
 package com.company.services.interfaces;
 
-import com.company.domain.inanimate.subject.Grade;
-
 import java.util.Collection;
 
 public interface Common<E> {

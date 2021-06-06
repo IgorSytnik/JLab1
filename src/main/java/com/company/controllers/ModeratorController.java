@@ -19,6 +19,7 @@ import com.company.services.interfaces.inanimate.subject.ListHasStudentsService;
 import com.company.services.interfaces.inanimate.subject.SubjectService;
 import com.company.services.interfaces.people.StudentService;
 import com.company.services.interfaces.people.TeacherService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+@Getter
 @RequiredArgsConstructor
 @Controller
 public class ModeratorController {
@@ -46,6 +49,7 @@ public class ModeratorController {
         return facultyService.make(new Faculty(name));
     }
 
+    @Transactional
     public Specialty makeSpecialty(String name) {
         return specialtyService.make(new Specialty(name));
     }
@@ -149,7 +153,46 @@ public class ModeratorController {
         );
     }
 
+    /*deleters*/
+
+    public void deleteFaculty(long id) {
+        facultyService.delete(id);
+    }
+
+    public void deleteSubject(long id) {
+        subjectService.delete(id);
+    }
+
+    public void deleteSpecialty(long id) {
+        specialtyService.delete(id);
+    }
+
+    public void deleteDepartment(long id) {
+        departmentService.delete(id);
+    }
+
+    public void deleteTeacher(long id) {
+        teacherService.delete(id);
+    }
+
+    public void deleteGroup(long id) {
+        groupService.delete(id);
+    }
+
+    public void deleteStudent(long id) {
+        studentService.delete(id);
+    }
+
+    public void deleteGroupsSubject(long id) {
+        groupsSubjectsService.delete(id);
+    }
+
+    public void deleteListHasStudent(long id) {
+        listHasStudentsService.delete(id);
+    }
+
     /*delete all*/
+
     public void deleteAll() {
         listHasStudentsService.deleteAll();
         studentService.deleteAll();
@@ -196,5 +239,93 @@ public class ModeratorController {
 
     public void deleteAllListHasStudents() {
         listHasStudentsService.deleteAll();
+    }
+
+    /*updaters*/
+//    @Put
+    public Faculty updateFaculty(Faculty faculty) {
+        return facultyService.update(faculty);
+    }
+
+    public Subject updateSubject(Subject subject) {
+        return subjectService.update(subject);
+    }
+
+    public Specialty updateSpecialty(Specialty specialty) {
+        return specialtyService.update(specialty);
+    }
+
+    public Department updateDepartment(Department department) {
+        return departmentService.update(department);
+    }
+
+    public Teacher updateTeacher(Teacher teacher) {
+        return teacherService.update(teacher);
+    }
+
+    public Group updateGroup(Group group) {
+        return groupService.update(group);
+    }
+
+    public Student updateStudent(Student student) {
+        Student student1 = studentService.update(student);
+        // Also makes list for the student
+        for (GroupsSubjects groupsSubjects : getAllGroupsSubjects()) {
+            ListHasStudents listHasStudents = new ListHasStudents(groupsSubjects, student1);
+            updateListHasStudents(listHasStudents);
+        }
+        return student1;
+    }
+
+    public GroupsSubjects updateGroupsSubjects(GroupsSubjects groupsSubjects) {
+        GroupsSubjects groupsSubjects1 = groupsSubjectsService.update(groupsSubjects);
+        // Also makes list for the groupsSubject
+        for (Student student : getAllStudents()) {
+            ListHasStudents listHasStudents = new ListHasStudents(groupsSubjects1, student);
+            updateListHasStudents(listHasStudents);
+        }
+        return groupsSubjects1;
+    }
+
+    public ListHasStudents updateListHasStudents(ListHasStudents listHasStudents) {
+        return listHasStudentsService.update(listHasStudents);
+    }
+
+    /*getters*/
+
+    public Optional<Faculty> getFaculty(long id) {
+        return facultyService.get(id);
+    }
+
+    public Optional<Subject> getSubject(long id) {
+        return subjectService.get(id);
+    }
+
+    public Optional<Specialty> getSpecialty(long id) {
+        return specialtyService.get(id);
+    }
+
+    public Optional<Department> getDepartment(long id) {
+        return departmentService.get(id);
+    }
+
+    public Optional<Teacher> getTeacher(long id) {
+        return teacherService.get(id);
+    }
+
+    public Optional<Group> getGroup(long id) {
+        return groupService.get(id);
+    }
+
+    public Optional<Student> getStudent(long id) {
+        return studentService.get(id);
+    }
+
+    public Optional<GroupsSubjects> getGroupsSubject(long id) {
+        return groupsSubjectsService.get(id);
+    }
+
+    public Optional<ListHasStudents> getListHasStudent(long id) {
+        return listHasStudentsService.get(id);
     }
 }

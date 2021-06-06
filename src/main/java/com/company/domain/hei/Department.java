@@ -18,7 +18,9 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @ToString(exclude = {"faculty", "groups", "teachers"})
-@Table(name = "departments")
+@Table(name = "departments", uniqueConstraints =
+@UniqueConstraint(columnNames = {"name"})
+)
 @Setter
 public class Department extends Institution {
 
@@ -50,28 +52,17 @@ public class Department extends Institution {
     @Temporal(TemporalType.DATE)
     private Date SecondAttestationEnd;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @Transient
+//    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private final List<Group> groups = new ArrayList<>();
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private final List<Teacher> teachers = new ArrayList<>();
 
-//    @Transient
-//    private final Date[] attestTerms = new Date[4];
-//    @Transient
-//    private int attestTermCount = 0;
-
     public Department(String name, Faculty faculty) {
         this.name = name;
         this.faculty = faculty;
     }
-
-//    public void attestTerm(Date date1, Date date2) {
-//        if (attestTerms.length - 1 >= attestTermCount)
-//            throw new AttestationException("Can't add attestation terms");
-//        attestTerms[attestTermCount++] = date1;
-//        attestTerms[attestTermCount++] = date2;
-//    }
 
     private boolean lookUp(final String obName) {
         return groups.stream().anyMatch(o -> o.getName().equals(obName));
