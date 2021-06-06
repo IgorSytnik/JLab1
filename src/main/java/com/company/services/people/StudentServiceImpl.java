@@ -1,56 +1,73 @@
 package com.company.services.people;
 
+import com.company.domain.inanimate.StudentsHasWorks;
+import com.company.domain.inanimate.subject.Grade;
+import com.company.domain.inanimate.subject.ListHasStudents;
+import com.company.domain.inanimate.subject.Subject;
 import com.company.domain.people.Student;
-import com.company.domain.people.Subject;
-import com.company.domain.people.Work;
-import com.company.repository.interfaces.RepositoryInt;
+import com.company.repository.dao.people.StudentRepository;
 import com.company.services.interfaces.people.StudentService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.vaadin.artur.helpers.CrudService;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl extends StudentService {
 
+    @Getter
     @Autowired
-    private RepositoryInt<Student> repository;
+    private StudentRepository repository;
 
-    public void addGrades(Map<Student, Map<Date, Integer>> mapGrades, Subject subject) {
-        mapGrades.forEach((k, v) -> {
-            k.getSubjects()
-                    .get(subject)
-                    .addGradesAsMap(v);
-            repository.update(k);
-        });
+    @Override
+    public Student make(Student ob) {
+        return repository.saveAndFlush(ob);
     }
 
-    public void addAttestations(Map<Student, Boolean> mapAttest, Subject subject) {
-        mapAttest.forEach((k, v) -> {
-            if ( k.getSubjects()
-                    .get(subject).getAttestationCount() >= 2) return;
-            k.getSubjects()
-                    .get(subject)
-                    .addAttestation(v);
-            repository.update(k);
-        });
+    @Override
+    public Collection<Student> makeMany(Collection<Student> collection) {
+        Collection<Student> collection1 = repository.saveAll(collection);
+        repository.flush();
+        return collection1;
     }
 
-    public Map<Date, Integer> getGrades(Student student, Subject subject) {
-        return student.getSubjects().get(subject).getGrades();
+    @Override
+    public List<Student> getAll() {
+        return repository.findAll();
     }
 
-    public boolean[] getAttestations(Student student, Subject subject) {
-        return student.getSubjects().get(subject).getAttestations();
+    @Override
+    public Student findById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Couldn't find student with id " + id));
     }
 
-    public Student getStudentById(long id) {
-        return repository.findById(id);
+    @Override
+    public List<Grade> getGrades(Student student, Subject subject) {
+        return student.getListHasStudentsList().stream()
+                .filter(ob -> ob.getGroupsSubjects().
+                        getSubject().
+                        equals(subject))
+                .flatMap(ob -> ob.getGrades().stream())
+                .collect(Collectors.toList());
     }
 
-    public String handOverWork(Work work, String file, Student student) {
-        return student.handOverWork(work, file);
+    @Override
+    public List<ListHasStudents> getAttestations(Student student, Subject subject) {
+        return student.getListHasStudentsList().stream()
+                .filter(ob -> ob.getGroupsSubjects()
+                        .getSubject()
+                        .equals(subject))
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

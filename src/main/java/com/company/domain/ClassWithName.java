@@ -3,8 +3,10 @@ package com.company.domain;
 import java.io.IOException;
 import java.util.Comparator;
 
+//@Embeddable
 public abstract class ClassWithName implements Name {
 
+//    @Column(name = "name")
     protected String name;
 
     // Used for sorting in ascending order

@@ -1,5 +1,8 @@
 package com.company.domain.people;
 
+import lombok.Getter;
+
+@Getter
 public enum AcademicPosition {
     ASPIRANT("Aspirant"),
     ASSISTANT("Assistant"),
@@ -13,12 +16,13 @@ public enum AcademicPosition {
     PROFESSOR("Professor"),
     SENIOR_LECTURER("Senior lecturer"),
     TRAINEE("Trainee"),
-    SENIOR_RESEARCHER("Senior researcher");
+    SENIOR_RESEARCHER("Senior researcher")
+    ;
 
-    private final String positionName;
+    private final String name;
 
-    AcademicPosition(String positionName) {
-        this.positionName = positionName;
+    AcademicPosition(String name) {
+        this.name = name;
     }
 
     public static String list() {
@@ -34,6 +38,6 @@ public enum AcademicPosition {
 
     @Override
     public String toString() {
-        return this.positionName;
+        return this.name;
     }
 }

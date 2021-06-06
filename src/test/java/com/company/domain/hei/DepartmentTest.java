@@ -1,8 +1,10 @@
+/*
 package com.company.domain.hei;
 
+import com.company.domain.people.Student;
 import com.company.exceptoins.EmptyListException;
 import com.company.domain.people.AcademicPosition;
-import com.company.domain.people.Group;
+import com.company.domain.inanimate.Group;
 import com.company.domain.people.Teacher;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DepartmentTest {
 
-/*for keyboard input */
+*/
+/*for keyboard input *//*
+
 //    String name1 = "XX-11";
 //    int num1 = 1;
 //    String expected1 =
@@ -40,8 +44,10 @@ class DepartmentTest {
 //    ByteArrayInputStream in1 = new ByteArrayInputStream(expected1.getBytes());
 //    ByteArrayInputStream in2 = new ByteArrayInputStream(expected2.getBytes());
 
-    /**
-     *  helping objects */
+    */
+/**
+     *  helping objects *//*
+
 
     Department obj = new Department("Bigu");
 
@@ -55,15 +61,15 @@ class DepartmentTest {
         Group gTest1 = new Group("TH-81", 3);
         Group gTest2 = new Group("TH-82", 3);
 
-        gTest1.addStudent("Talking Head");
-        gTest1.addStudent("Oingo Boingo");
+        gTest1.addStudent(new Student("Talking Head"));
+        gTest1.addStudent(new Student("Oingo Boingo"));
 
-        gTest2.addStudent("Death Grip");
+        gTest2.addStudent(new Student("Death Grip"));
 
-        gTest3.addStudent("Limp Bizkit");
-        gTest3.addStudent("Scary Monster");
-        gTest3.addStudent("Super Creep");
-        gTest3.addStudent("Queen Bee");
+        gTest3.addStudent(new Student("Limp Bizkit"));
+        gTest3.addStudent(new Student("Scary Monster"));
+        gTest3.addStudent(new Student("Super Creep"));
+        gTest3.addStudent(new Student("Queen Bee"));
 
         Lambda1.addGroup(gTest1); // 2
         Lambda1.addGroup(gTest2); // 1
@@ -173,10 +179,14 @@ class DepartmentTest {
         assertTrue(obj.showTeachersList());
     }
 
-    /*  lambdas */
+    */
+/*  lambdas *//*
 
-    /**
-     * findGroupsByYear*/
+
+    */
+/**
+     * findGroupsByYear*//*
+
     @Test
     void findGroupsByYear_FindByTwoDifferentYears_Equals() {
         assertEquals(4, Lambda1.findGroupsByYear(4).size());
@@ -193,8 +203,10 @@ class DepartmentTest {
         assertEquals(0, Lambda2.findGroupsByYear(4).size());
     }
 
-    /**
-     * countStudentsByYear*/
+    */
+/**
+     * countStudentsByYear*//*
+
 
     @Test
     void countStudentsByYear_CountByTwoDifferentYears_Equals() {
@@ -212,8 +224,10 @@ class DepartmentTest {
         assertEquals(0, Lambda2.countStudentsByYear(4));
     }
 
-    /**
-     * maxStudentsInGroup*/
+    */
+/**
+     * maxStudentsInGroup*//*
+
 
     @Test
     void maxStudentsInGroup_FindMaxInAListWithGroups_Equals() throws EmptyListException {
@@ -225,8 +239,10 @@ class DepartmentTest {
         assertThrows(EmptyListException.class, Lambda2::maxStudentsInGroup);
     }
 
-    /**
-     * avgNumberOfStudents*/
+    */
+/**
+     * avgNumberOfStudents*//*
+
 
     @Test
     void avgNumberOfStudents_FindAvgInAListWithGroups_Equals() throws EmptyListException {
@@ -238,8 +254,10 @@ class DepartmentTest {
         assertThrows(EmptyListException.class, Lambda2::avgNumberOfStudents);
     }
 
-    /**
-     * splitGroupsByYear*/
+    */
+/**
+     * splitGroupsByYear*//*
+
 
     @Test
     void splitGroupsByYear_SplitByTwoExistingYears_Equals() {
@@ -258,8 +276,10 @@ class DepartmentTest {
         assertEquals(0, Lambda2.splitGroupsByYear(4).get(false).size());
     }
 
-    /**
-     * findTeachersByPosition*/
+    */
+/**
+     * findTeachersByPosition
+     *//*
 
     @Test
     void findTeachersByPosition_FindByTwoDifferentPositions_Equals() {
@@ -277,8 +297,10 @@ class DepartmentTest {
         assertEquals(0, Lambda2.findTeachersByPosition(AcademicPosition.ASPIRANT).size());
     }
 
-    /**
-     * splitTeachersByPosition*/
+    */
+/**
+     * splitTeachersByPosition
+     *//*
 
     @Test
     void splitTeachersByPosition_SplitByTwoExistingPositions_Equals() {
@@ -296,4 +318,4 @@ class DepartmentTest {
         assertEquals(0, Lambda2.splitTeachersByPosition(AcademicPosition.ASPIRANT).get(true).size());
         assertEquals(0, Lambda2.splitTeachersByPosition(AcademicPosition.ASPIRANT).get(false).size());
     }
-}
+}*/
